@@ -1,4 +1,4 @@
-# Backend — not deployable on Vercel (requires subprocess + SQLite)
+# Backend — not deployable on Vercel
 backend/
 database/
 
@@ -10,7 +10,7 @@ database/
 # Git
 .git/
 
-# Large/unnecessary files
+# Design/prototype files (not needed for live site)
 expressions/
 frontendpages/
 *.pdf

@@ -2,7 +2,7 @@
 
 const API_BASE = (function() {
   const saved = localStorage.getItem('ammayi_api_base');
-  return saved || 'http://localhost:8000';
+  return saved || 'https://tinkerhub-ammayicompiler-exe.onrender.com';
 })();
 
 /**

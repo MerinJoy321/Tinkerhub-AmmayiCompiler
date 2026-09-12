@@ -1,0 +1,407 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Noto+Sans+Malayalam:wght@500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    @keyframes terminal-shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      60% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
+    }
+    .animate-shake {
+      animation: terminal-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    .clay-card {
+      background: #FFF9ED;
+      border: 2.5px solid #392A27;
+      box-shadow: 0 8px 0px #392A27, 0 14px 20px rgba(57, 42, 39, 0.12);
+    }
+    .clay-bubble {
+      background: #FFFDF8;
+      border: 3px solid #392A27;
+      box-shadow: 0 8px 0px #392A27, 0 16px 24px rgba(57, 42, 39, 0.1);
+    }
+    .clay-btn {
+      transition: all 0.15s ease;
+      border: 2.5px solid #392A27;
+      box-shadow: 0 5px 0px #392A27;
+    }
+    .clay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0px #392A27;
+    }
+    .clay-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0px #392A27;
+    }
+  </style>
+</head>
+<body class="bg-[#FFF1D6] font-['Plus_Jakarta_Sans'] text-[#392A27] antialiased selection:bg-[#F2C35B] selection:text-[#392A27]">
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-[#FFF9ED] border-b-[3px] border-[#392A27] shadow-[0_4px_0px_#392A27]"><div class="h-1.5 w-full bg-gradient-to-r from-[#873F4B] via-[#F2C35B] via-[#E78C8D] to-[#8EA477]"></div><div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6"><div class="flex items-center gap-8"><div class="flex items-center gap-2.5"><span class="text-2xl select-none">👓</span><span class="font-['Bricolage_Grotesque'] text-xl font-extrabold tracking-tight uppercase text-[#392A27]">AMMAYI COMPILER</span><span class="px-2 py-0.5 rounded-full bg-[#873F4B] text-[#FFF9ED] font-mono font-bold text-[10px] border border-[#392A27]">PROD</span></div><nav class="hidden md:flex items-center gap-1.5"><a aria-current="page" class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]" href="#">Compiler</a><a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">History</a><a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">About</a><a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Settings</a></nav></div><div class="flex items-center gap-4"><div class="hidden sm:flex items-center gap-3 font-mono text-xs"><span class="text-[#392A27]/60 font-semibold">Session 04</span><span class="text-[#392A27]/30">•</span><div class="flex items-center gap-1.5 px-3 py-1 bg-[#FFE8DE] text-[#873F4B] border border-[#392A27]/30 rounded-xl font-bold"><span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse inline-block"></span><span class="">Disappointed (64%)</span></div></div><button class="clay-btn px-4 py-1.5 bg-[#F4B6A6] text-[#392A27] rounded-full font-mono text-xs font-bold flex items-center gap-1.5" onclick="switchState('escape')" type="button"><span class="material-symbols-outlined text-base">restart_alt</span><span class="">New Session</span></button></div></div></header>
+<!-- MAIN CONTAINER -->
+<main class="w-full pb-14"><section class="max-w-7xl mx-auto px-6 pt-6 pb-4"><div class="clay-card rounded-3xl p-6 md:p-8 relative overflow-hidden bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE]"><div class="flex flex-col md:flex-row items-center gap-8 relative z-10"><div class="relative shrink-0 group"><div class="w-44 h-44 md:w-52 md:h-52 rounded-3xl overflow-hidden border-[3px] border-[#392A27] shadow-[0_8px_0px_#392A27] bg-[#FFF1D6] relative"><img alt="Kerala Ammayi" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105" id="ammayi-portrait-img" src="https://lh3.googleusercontent.com/aida/AEtjO1X6Wu7FJoOAJV3qD5ZruVY7CQvNh3Bz4BffXkckr-gXhGXLv_VpKQOihhBTAAW0_I-7CbuXvXKBVokt8L8YUmsneNKcvWm81RJzeOyq1LkHKnYjTVK3-rF3mUfvHkZZgHIxvTFtnjTp3j2983zWZ0568_pR6rDn7oOethLK2UNf4o7d1OQ-XH4YDiP1kvmg7X73WF6dttZJDaWU5oogOYq5cJfmBoi5Jnf2WMDz-IFgzBYa3SzFNaCfhRYJ"><div class="absolute bottom-0 inset-x-0 bg-[#873F4B] text-[#FFF9ED] text-center py-1.5 font-mono text-[11px] font-extrabold tracking-wider uppercase border-t-2 border-[#392A27]" id="verdict-banner-tag">JUDICIAL SCRUTINY</div></div><div class="absolute -top-2.5 -right-2.5 px-3 py-1 bg-[#E78C8D] text-[#392A27] font-mono font-extrabold text-[11px] rounded-full uppercase border-2 border-[#392A27] shadow-[0_3px_0px_#392A27]">LIVE AMMAYI</div></div><div class="flex-1 w-full flex flex-col justify-center gap-4"><div class="flex flex-wrap items-center justify-between gap-3"><div class="flex items-center gap-2 font-mono font-extrabold text-xs text-[#873F4B] tracking-wider uppercase"><span class="text-base">📢</span><span class="">AMMAYI JUDGEMENT CHAMBER //</span><span class="px-3 py-0.5 rounded-full bg-[#E78C8D] text-[#392A27] text-xs font-extrabold border border-[#392A27]" id="mood-pill">DISAPPOINTED (Tier 3/6)</span></div><button class="clay-btn px-3.5 py-1.5 rounded-full bg-[#FFF1D6] text-[#392A27] text-xs font-mono font-bold flex items-center gap-2" onclick="playAmmayiAudio()" type="button"><span class="material-symbols-outlined text-base text-[#873F4B]">volume_up</span><span id="voice-replay-text" class="">Replay: “Eda mone... (sigh)” (0:05)</span><span class="flex items-center gap-0.5 h-3 ml-1" id="voice-bars"><span class="w-1 h-2 bg-[#873F4B] rounded-full animate-pulse"></span><span class="w-1 h-3.5 bg-[#873F4B] rounded-full"></span><span class="w-1 h-1.5 bg-[#873F4B] rounded-full animate-pulse"></span><span class="w-1 h-3 bg-[#873F4B] rounded-full"></span></span></button></div><div class="relative clay-bubble rounded-3xl p-6 md:p-7"><div class="hidden md:block absolute -left-3.5 top-10 w-6 h-6 bg-[#FFFDF8] border-l-[3px] border-b-[3px] border-[#392A27] transform rotate-45"></div><h1 class="font-['Noto_Sans_Malayalam'] text-2xl md:text-3xl font-extrabold text-[#392A27] leading-relaxed tracking-wide" id="ammayi-quote-text">“നിന്റെ code കണ്ടിട്ട് error വന്നതല്ല. Error കണ്ടിട്ട് code ഉണ്ടാക്കിയതാണെന്ന് തോന്നുന്നു.”</h1><p class="font-['Plus_Jakarta_Sans'] text-base text-[#873F4B] font-semibold mt-3 italic border-t-2 border-[#392A27]/15 pt-3 flex items-center gap-2" id="ammayi-trans-text"><span class="font-bold select-none text-[#E78C8D]">↳</span>“The error didn't happen because of your code. It looks like you wrote code specifically inspired by an error.”</p></div><div class="flex flex-wrap items-center justify-between gap-3 font-mono text-xs pt-1"><div class="flex items-center gap-2"><span class="font-extrabold text-[#392A27]/80 uppercase text-[11px]">MOOD METER:</span><div class="flex flex-wrap items-center gap-1.5"><span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-1">Calm</span><span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-2">Suspicious</span><span class="px-3 py-1 rounded-xl text-[11px] font-extrabold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]" id="tier-tag-3">Disappointed (64%)</span><span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-4">Annoyed</span><span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-5">Angry</span><span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-6">Incensed</span></div></div><div class="text-xs font-bold text-[#873F4B] bg-[#FFF1D6] px-3 py-1 rounded-xl border border-[#392A27]">Sharmaji Benchmark: <span class="text-[#392A27] font-extrabold">48 LPA Unmatched</span></div></div></div></div></div></section><section class="max-w-7xl mx-auto px-6 py-5"><!-- Error Category Switcher Bar -->
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4 bg-[#FFF9ED] border-2 border-[#392A27] rounded-2xl p-4 shadow-[0_4px_0px_#392A27]"><div class="flex items-center gap-2 font-mono text-xs text-[#873F4B] font-extrabold tracking-wider uppercase"><span class="material-symbols-outlined text-base text-[#873F4B]">bug_report</span><span class="">TEST AMMAYI ERROR TRIGGERS:</span></div><div class="flex flex-wrap items-center gap-2.5"><button id="tab-name" onclick="triggerTerminalError('NameError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border-2 border-[#392A27] bg-[#F2C35B] text-[#392A27] shadow-[0_2px_0px_#392A27] transition-all hover:bg-[#FFF1D6]">NameError</button><button id="tab-type" onclick="triggerTerminalError('TypeError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all">TypeError</button><button id="tab-indent" onclick="triggerTerminalError('IndentationError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all">IndentationError</button><button id="tab-index" onclick="triggerTerminalError('IndexError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all">IndexError</button><button id="tab-zero" onclick="triggerTerminalError('ZeroDivisionError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all">ZeroDivisionError</button><button id="tab-syntax" onclick="triggerTerminalError('SyntaxError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all">SyntaxError</button><button id="tab-succ" onclick="triggerTerminalError('Success')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all">Success (?)</button></div></div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch"><div class="lg:col-span-7 clay-card rounded-3xl overflow-hidden flex flex-col justify-between bg-[#FFF9ED]"><div><div class="h-12 px-6 bg-[#FFF1D6] border-b-2 border-[#392A27] flex items-center justify-between text-xs font-mono"><div class="flex items-center gap-3"><div class="flex items-center gap-2 px-3 py-1 bg-[#FFF9ED] rounded-xl border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] font-bold text-[#392A27]"><span class="text-sm">🐍</span><span class="">main.py</span><span class="w-2 h-2 rounded-full bg-[#E78C8D] inline-block border border-[#392A27]"></span></div><span class="text-[#392A27]/60 hidden sm:inline font-semibold">Python 3.12</span></div><div class="flex items-center gap-2"><span class="px-3 py-1 bg-[#FFE8DE] text-[#873F4B] font-extrabold rounded-xl border border-[#392A27] text-xs flex items-center gap-1.5"><span class="">⚠️</span> Line 5 flagged</span></div></div><div class="p-6 md:p-8 font-mono text-[14px] leading-relaxed overflow-x-auto text-[#392A27]"><div class="grid grid-cols-[2.5rem_1fr] gap-x-4 items-center"><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">1</div><div class="py-1.5"><span class="text-[#8EA477] font-extrabold">def</span> <span class="text-[#873F4B] font-extrabold">calculate_family_reputation</span>(cgpa, salary_lpa, owns_land):</div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">2</div><div class="text-[#392A27]/60 italic pl-6 py-1.5"># Sharmaji's benchmark son makes 48 LPA at Google Zurich</div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">3</div><div class="pl-6 py-1.5"><span class="text-[#392A27] font-semibold">benchmark_salary</span> = <span class="text-[#873F4B] font-bold">48.0</span></div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">4</div><div class="pl-6 py-1.5"><span class="text-[#8EA477] font-extrabold">if</span> salary_lpa &lt; benchmark_salary:</div><div class="text-right text-[#FFF9ED] font-bold select-none bg-[#873F4B] px-1.5 py-1.5 rounded-l-lg border-y-2 border-l-2 border-[#392A27]" id="line5-num">5</div><div class="bg-[#FFE8DE] -mr-4 pl-6 pr-4 rounded-r-lg flex items-center justify-between border-y-2 border-r-2 border-[#392A27] py-1.5" id="line5-code"><div class=""><span class="text-[#ba1a1a] font-black">raise</span> <span class="text-[#873F4B] font-extrabold underline decoration-[#ba1a1a] decoration-wavy decoration-2">DisappointmentError</span>(<span class="text-[#392A27] font-bold">"Ithano ninte valya package?"</span>)</div><span class="text-[#FFF9ED] font-mono text-[11px] font-extrabold bg-[#873F4B] px-2.5 py-0.5 rounded-lg border border-[#392A27] hidden md:inline">Ammayi Trigger</span></div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">6</div><div class="pl-6 py-1.5"><span class="text-[#8EA477] font-extrabold">return</span> <span class="text-[#8EA477] font-bold">"Eligible for marriage brochure"</span></div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">7</div><div class="py-1.5"></div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">8</div><div class="text-[#392A27]/60 italic py-1.5"># Invocation of reality:</div><div class="text-right text-[#FFF9ED] font-bold select-none bg-[#873F4B] px-1.5 py-1.5 rounded-l-lg border-y-2 border-l-2 border-[#392A27]" id="line9-num">9</div><div class="bg-[#FFE8DE] -mr-4 pl-6 pr-4 rounded-r-lg flex items-center justify-between border-y-2 border-r-2 border-[#392A27] py-1.5" id="line9-code"><div class=""><span class="text-[#8EA477] font-black">print</span>(calculate_family_reputation(<span class="text-[#873F4B] font-bold">7.2</span>, <span class="text-[#ba1a1a] font-extrabold underline decoration-[#F2C35B]">8.5</span>, <span class="text-[#8EA477] font-black">False</span>))</div><span class="text-[#ba1a1a] font-mono text-[11px] font-black hidden sm:inline">Deficit: -39.5 LPA</span></div><div class="text-right text-[#392A27]/40 select-none font-bold py-1.5">10</div><div class="py-1.5"></div></div></div></div><div class="p-5 bg-[#FFF1D6] border-t-2 border-[#392A27] flex items-center justify-between gap-4 flex-wrap"><div class="flex items-center gap-3"><button class="clay-btn px-7 py-3 bg-[#F2C35B] text-[#392A27] rounded-2xl font-['Bricolage_Grotesque'] font-extrabold text-base tracking-wide flex items-center gap-2.5 border-t-2 border-white/80 cursor-pointer" onclick="runExecution()" type="button"><span class="text-lg">▶</span><span class="">RUN CODE</span><span class="text-xs font-mono text-[#392A27]/70 hidden sm:inline">(Go ahead.)</span></button><button class="clay-btn px-5 py-3 bg-[#873F4B] text-[#FFF9ED] rounded-2xl font-['Bricolage_Grotesque'] font-extrabold text-sm tracking-wide flex items-center gap-2 border-t-2 border-white/40 cursor-pointer" onclick="makeItWorse()" title="Time undallo ninakku..." type="button"><span class="">💥</span><span class="">MAKE IT WORSE</span></button></div><div class="text-xs font-mono font-bold text-[#873F4B]">Python 3.12 Kernel [Active]</div></div></div><div class="lg:col-span-5 rounded-3xl border-[3px] border-[#392A27] shadow-[0_8px_0px_#392A27] bg-[#392A27] overflow-hidden flex flex-col justify-between" id="terminal-wrapper"><div class="h-12 px-6 bg-[#2A1E1C] border-b-2 border-[#392A27] flex items-center justify-between font-mono text-xs text-[#FFF1D6]"><div class="flex items-center gap-3"><div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-[#E78C8D] inline-block border border-[#FFF1D6]/30"></span><span class="w-3 h-3 rounded-full bg-[#F2C35B] inline-block border border-[#FFF1D6]/30"></span><span class="w-3 h-3 rounded-full bg-[#8EA477] inline-block border border-[#FFF1D6]/30"></span></div><span class="font-bold flex items-center gap-1.5 text-xs text-[#FFF9ED]"><span class="material-symbols-outlined text-sm text-[#F2C35B]">terminal</span>bash — python3 main.py</span></div><span class="px-3 py-1 rounded-lg bg-[#873F4B] text-[#FFF9ED] font-extrabold text-[11px] border border-[#FFF1D6]/30">EXIT: 1</span></div><div class="p-6 md:p-8 font-mono text-xs space-y-5 leading-relaxed text-[#FFF9ED] bg-[#392A27] flex-1 overflow-y-auto flex flex-col justify-between" id="terminal-body"><div class="space-y-4"><div class="flex items-center gap-2 text-[13px]"><span class="text-[#F2C35B] font-bold">$</span><span class="text-[#FFF9ED] font-bold">python3 main.py</span></div><div class="flex items-center justify-between gap-2"><div class="inline-flex items-center gap-2 px-3 py-1 bg-[#ba1a1a]/20 border border-[#ba1a1a]/40 text-[#ba1a1a] rounded-xl font-mono text-xs font-black" id="terminal-status-badge"><span class="text-sm">✕</span><span class="">PROCESS FAILED</span></div><span class="px-2.5 py-0.5 rounded-lg bg-[#873F4B] text-[#FFF9ED] font-mono text-[11px] font-extrabold border border-[#392A27]" id="terminal-err-type">DisappointmentError</span></div><div class="p-5 rounded-2xl bg-[#2A1E1C] border-2 border-[#873F4B] shadow-inner space-y-3"><div class="flex items-center gap-2 font-['Bricolage_Grotesque'] text-xs font-extrabold tracking-wider uppercase text-[#E78C8D]"><span class="material-symbols-outlined text-sm text-[#F2C35B]">campaign</span><span class="">AMMAYI SAYS:</span></div><p class="font-mono text-sm text-[#FFF9ED] leading-relaxed italic bg-[#392A27]/60 p-3.5 rounded-xl border border-[#392A27]" id="terminal-ammayi-quote">“Ninte code kandittu error vannathalla. Error kandittu code undakkiyathaanennu thonnunnu.”</p><div class="text-[11px] font-mono text-[#F4B6A6]/80 text-right font-bold tracking-tight" id="terminal-verdict-note">[ Verdict Delivered • No Traceback Provided ]</div></div></div><div class="pt-3 border-t border-[#392A27]/50 flex items-center justify-between text-[11px] text-[#FFF1D6]/70"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#E78C8D]"></span><span id="terminal-meta-note" class="font-mono">Kerala Kinship Judicial Runtime • Zero diagnostics allowed</span></div><span class="font-mono text-[10px] text-[#F2C35B]">[Trace Suppressed]</span></div></div></div></div></section><section class="max-w-7xl mx-auto px-6 pt-2 pb-10"><div class="clay-card rounded-3xl p-5 md:p-6 bg-[#FFF9ED]"><div class="flex flex-col md:flex-row items-center justify-between gap-5"><div class="w-full md:w-2/3 flex items-center gap-3"><div class="hidden sm:flex items-center gap-2 font-['Bricolage_Grotesque'] text-sm text-[#873F4B] font-extrabold shrink-0"><span class="text-xl">🗣️</span><span class="">I CAN EXPLAIN:</span></div><div class="relative flex-1"><input class="w-full bg-[#FFF1D6] border-2 border-[#392A27] focus:border-[#873F4B] px-5 py-3 text-[#392A27] font-mono text-sm rounded-2xl placeholder:text-[#392A27]/50 focus:outline-none pr-32 shadow-inner" id="defense-input" onkeydown="if(event.key==='Enter') submitDefense()" placeholder="Paranjolu (Explain yourself to Ammayi)..." type="text"><button class="clay-btn absolute right-2 top-2 bottom-2 px-4 bg-[#F4B6A6] text-[#392A27] rounded-xl font-['Bricolage_Grotesque'] text-xs font-extrabold flex items-center gap-1.5 cursor-pointer" onclick="submitDefense()" type="button"><span class="">SUBMIT</span><span class="">▷</span></button></div></div><div class="w-full md:w-1/3 flex items-center justify-between md:justify-end gap-3 px-5 py-3 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27] font-mono text-xs" id="defense-reaction"><span class="flex items-center gap-1.5 text-[#392A27] truncate"><span class="text-[#873F4B] font-bold">Verdict:</span><strong class="truncate font-extrabold">“Okay. Still your code.”</strong></span><span class="text-[10px] text-[#FFF9ED] bg-[#873F4B] px-2.5 py-0.5 rounded-lg font-black uppercase shrink-0 border border-[#392A27]">STANDS</span></div></div></div></section></main>
+<!-- FOOTER -->
+<footer class="bg-[#FFF9ED] border-t-[3px] border-[#392A27] py-2 px-4 md:px-6">
+<div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between font-mono text-xs text-[#392A27]/80 gap-2">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-[#8EA477] border border-[#392A27]"></span>
+<span class="text-[#392A27] font-bold">Python 3.12 Kernel [Active]</span>
+</div>
+<span class="text-[#392A27]/40">•</span>
+<span class="">Memory: 47 Sins Logged</span>
+<span class="text-[#392A27]/40">•</span>
+<span class="">Latency: 14ms</span>
+</div>
+<div class="flex items-center gap-1 text-[#873F4B] font-bold">
+<span class="">⚖️</span>
+<span class="italic">Your code has errors. Your Ammayi has opinions.</span>
+</div>
+</div>
+</footer><script id="comedy-stage-script">
+const comedyPresets = {
+  reference: {
+    mal: '“X എവിടെ നിന്ന് വന്നു? (pause) വീട്ടിൽ നിന്ന് വിളിച്ചിട്ട് വന്നതാണോ?”',
+    trans: '“Who is X? Did he arrive uninvited from your ancestral home? You didn\'t introduce him, now you expect me to know him?”',
+    voice: 'Replay: “Eda mone... (sigh)” (0:05)',
+    mood: 'SUSPICIOUS (Tier 2/6)',
+    codeBanner: 'Line 4 flagged: Unregistered Relative',
+    stamp: 'VERDICT: UNANNOUNCED GUEST • ZERO HELP'
+  },
+  type: {
+    mal: '“ചോറിൽ ചായ ഒഴിച്ചു കുടിക്കുന്ന സ്വഭാവം കോഡിംഗിലും തുടങ്ങിയോ?”',
+    trans: '“Have you started pouring hot tea into cooked rice while coding too? Adding an Integer to a String? What culture is this?”',
+    voice: 'Replay: “Enthokke kaananam...” (0:04)',
+    mood: 'DISAPPOINTED (Tier 3/6)',
+    codeBanner: 'Line 5 flagged: Incompatible Sambandham',
+    stamp: 'VERDICT: UNHOLY MIXTURE • REJECTED'
+  },
+  indent: {
+    mal: '“ക്ലാസ് ഫോട്ടോ എടുക്കുമ്പോൾ എല്ലാവരും വരിയിൽ നിൽക്കില്ലേ? ഇതെന്താ ഒരാൾ മാത്രം മാറി നിൽക്കുന്നത്?”',
+    trans: '“Doesn\'t everyone stand in line for the class photo? Why is one variable standing alone like an outcast? Indentation is discipline.”',
+    voice: 'Replay: “Ozhukkam illallo!” (0:03)',
+    mood: 'ANNOYED (Tier 4/6)',
+    codeBanner: 'Line 6 flagged: Alignment Failure',
+    stamp: 'VERDICT: LACK OF FAMILY DISCIPLINE'
+  },
+  zero: {
+    mal: '“പൂജ്യം കൊണ്ട് ഹരിക്കാൻ നിനക്ക് എന്തിന്റെ അഹങ്കാരമാടാ? ഉള്ളതും കൂടെ ഇല്ലാതാക്കാൻ!”',
+    trans: '“Dividing by zero? What arrogance makes you think you can divide by nothing and expect everything? You\'re ruining what little we had!”',
+    voice: 'Replay: “Ayyyoo devame!” (0:04)',
+    mood: 'ANGRY (Tier 5/6)',
+    codeBanner: 'Line 9 flagged: Existential Collapse',
+    stamp: 'VERDICT: CATASTROPHIC GREED'
+  },
+  success: {
+    mal: '“ഓ. എങ്ങനെയോ run ആയി. ഇതിനു വേണ്ടിയാണോ 6 മണിക്കൂർ കമ്പ്യൂട്ടറിൽ കുത്തിയിരുന്നത്? ശർമ്മാജിയുടെ മോൻ ഇതൊക്കെ 2 മിനിറ്റിൽ ചെയ്യും.”',
+    trans: '“Oh, somehow it ran. Is this what you sat poking at the computer for 6 hours? Sharmaji\'s son does this in 2 minutes.”',
+    voice: 'Replay: “Sheri, don\'t get cocky.” (0:04)',
+    mood: 'CALM (Tier 1/6)',
+    codeBanner: 'Process Complete (Sharmaji Still Better)',
+    stamp: 'VERDICT: UNCONVINCED APPROVAL'
+  }
+};
+
+function switchPreset(key) {
+  const p = comedyPresets[key];
+  if (!p) return;
+  document.getElementById('ammayi-quote-text').textContent = p.mal;
+  document.getElementById('ammayi-trans-text').innerHTML = `<span class="font-bold select-none text-[#E78C8D]">↳</span>${p.trans}`;
+  document.getElementById('voice-replay-text').textContent = p.voice;
+  document.getElementById('mood-pill').textContent = p.mood;
+  const stamp = document.getElementById('verdict-stamp');
+  if (stamp) stamp.textContent = p.stamp;
+
+  document.querySelectorAll('.comedy-tab').forEach(b => {
+    b.className = 'comedy-tab px-2.5 py-1 rounded-xl font-mono text-[11px] font-bold border border-[#392A27]/30 bg-[#FFF9ED] text-[#392A27] hover:bg-[#FFF1D6] transition-all';
+  });
+  const activeBtn = document.getElementById(`tab-${key.slice(0,4)}`) || document.getElementById(`tab-${key}`);
+  if (activeBtn) {
+    activeBtn.className = 'comedy-tab px-2.5 py-1 rounded-xl font-mono text-[11px] font-extrabold border-2 border-[#392A27] bg-[#F2C35B] text-[#392A27] shadow-[0_2px_0px_#392A27] transition-all';
+  }
+}
+</script>
+<script>
+    const presets = {
+      error: {
+        mood: 'DISAPPOINTED (Tier 3/6)',
+        topMood: 'MOOD: DISAPPOINTED (64%)',
+        topMoodWidth: '64%',
+        verdictTag: 'JUDICIAL INTERVENTION',
+        malayalamQuote: "“നിന്റെ code കണ്ടിട്ട് error വന്നതല്ല. Error കണ്ടിട്ട് code ഉണ്ടാക്കിയതാണെന്ന് തോന്നുന്നു.”",
+        transQuote: "“The error didn't happen because of your code. It looks like you wrote code specifically inspired by an error.”",
+        voiceText: 'Replay: “Ayyeee...” (0:04)',
+        tierIndex: 3,
+        sins: 47,
+        escapes: 4,
+        termLog: `
+          <div class="flex items-center gap-2">
+            <span class="text-[#F2C35B] font-bold">developer@kerala-box:~/workspace$</span>
+            <span class="text-[#FFF9ED] font-bold">python3 main.py</span>
+          </div>
+          <div class="bg-[#2A1E1C] p-3.5 rounded-2xl border-2 border-[#873F4B] space-y-1 text-[12.5px] shadow-inner">
+            <div class="text-[#F4B6A6] font-semibold">Traceback (most recent call last):</div>
+            <div class="pl-4 text-[#FFF9ED]">File <span class="text-[#F2C35B] font-semibold">"main.py"</span>, line <span class="text-[#E78C8D] font-bold">9</span>, in &lt;module&gt;</div>
+            <div class="pl-8 text-[#FFF1D6]/80">print(calculate_family_reputation(7.2, 8.5, False))</div>
+            <div class="pl-4 text-[#FFF9ED]">File <span class="text-[#F2C35B] font-semibold">"main.py"</span>, line <span class="text-[#E78C8D] font-bold">5</span>, in calculate_family_reputation</div>
+            <div class="pl-8 text-[#E78C8D] font-bold">raise DisappointmentError("Ithano ninte valya package?")</div>
+            <div class="text-[#ba1a1a] bg-[#ba1a1a]/20 px-2 py-1 rounded-lg font-black text-[13px] mt-1 border border-[#ba1a1a]/40">DisappointmentError: Ithano ninte valya package?</div>
+          </div>
+          <div class="p-3 bg-[#873F4B]/40 border-2 border-[#873F4B] rounded-2xl text-[#FFF9ED] text-xs flex items-start gap-2.5">
+            <span class="material-symbols-outlined text-lg text-[#F2C35B] shrink-0">do_not_disturb_on</span>
+            <div>
+              <div class="font-extrabold text-[#F2C35B] tracking-wide">DIAGNOSTIC HINTS: SUPPRESSED BY AMMAYI</div>
+              <div class="text-[#FFF1D6]/90 mt-0.5">Zero help provided. No StackOverflow allowed. Figure it out yourself.</div>
+            </div>
+          </div>
+          <div class="text-[#FFF1D6]/70 flex items-center gap-2 pt-1">
+            <span class="w-2 h-4 bg-[#F2C35B] animate-pulse inline-block"></span>
+            <span>Ammayi awaiting developer justification...</span>
+          </div>
+        `
+      },
+      fresh: {
+        mood: 'CALM (Tier 1/6)',
+        topMood: 'MOOD: CALM (12%)',
+        topMoodWidth: '12%',
+        verdictTag: 'QUIET SCRUTINY',
+        malayalamQuote: "“എന്താ ഇത്? ഒരു ലൈൻ പോലും എഴുതിയിട്ടില്ലല്ലോ. വല്ലതും ചെയ്യ്.”",
+        transQuote: "“What is this? You haven't written even one proper line. Do something productive.”",
+        voiceText: 'Voice: “Mmm...” (0:02)',
+        tierIndex: 1,
+        sins: 47,
+        escapes: 4,
+        termLog: `
+          <div class="flex items-center gap-2">
+            <span class="text-[#F2C35B] font-bold">developer@kerala-box:~/workspace$</span>
+            <span class="text-[#FFF9ED] font-bold">python3 main.py --dry-run</span>
+          </div>
+          <div class="text-[#8EA477] font-bold text-[13px]">[BUFFER INITIALIZED - WAITING FOR COMMITS]</div>
+          <div class="text-[#FFF1D6]/80 text-[12px]">Sharmaji son status: Pushed 14 PRs to Google Zurich this morning.</div>
+          <div class="text-[#FFF1D6]/70 flex items-center gap-2 pt-1">
+            <span class="w-2 h-4 bg-[#F2C35B] animate-pulse inline-block"></span>
+            <span>Ammayi watching blank screen with folded arms...</span>
+          </div>
+        `
+      },
+      exec: {
+        mood: 'SUSPICIOUS (Tier 2/6)',
+        topMood: 'MOOD: SUSPICIOUS (38%)',
+        topMoodWidth: '38%',
+        verdictTag: 'SCRUTINIZING SALARY',
+        malayalamQuote: "“Salary 8.5 LPA? നിന്റെ ക്ലാസ്സിലെ രാഹുൽ 42 LPA വാങ്ങി Google-ൽ പോയി.”",
+        transQuote: "“Salary 8.5 LPA? Rahul from your class took 42 LPA and went to Google Zurich.”",
+        voiceText: 'Voice Note: “Ketitundo?” (0:03)',
+        tierIndex: 2,
+        sins: 47,
+        escapes: 4,
+        termLog: `
+          <div class="flex items-center gap-2">
+            <span class="text-[#F2C35B] font-bold">developer@kerala-box:~/workspace$</span>
+            <span class="text-[#FFF9ED] font-bold">python3 main.py</span>
+          </div>
+          <div class="text-[#F2C35B] text-[13px]">[RUNTIME BENCHMARK IN PROGRESS...]</div>
+          <div class="text-[#FFF9ED] text-[12.5px]">Comparing package: 8.5 LPA vs Sharmaji Benchmark: 48.0 LPA</div>
+          <div class="text-[#E78C8D] font-bold pl-4">Deficit: -39.5 LPA deficit detected!</div>
+          <div class="text-[#FFF1D6]/70 flex items-center gap-2 pt-1">
+            <span class="w-2 h-4 bg-[#F2C35B] animate-pulse inline-block"></span>
+            <span>Ammayi calculating marriage market depreciation...</span>
+          </div>
+        `
+      },
+      success: {
+        mood: 'SUSPICIOUS (Tier 2/6)',
+        topMood: 'MOOD: SUSPICIOUS (29%)',
+        topMoodWidth: '29%',
+        verdictTag: 'UNCONVINCED APPROVAL',
+        malayalamQuote: "“ഓ. Work ആയി. ഇതിനു വേണ്ടിയാണോ ഇത്ര നേരം കമ്പ്യൂട്ടറിൽ കുത്തിയിരുന്നത്? Copy അടിച്ചതല്ലേ?”",
+        transQuote: "“Oh. It worked. Is this what you spent all these hours poking at the screen for? You copied it, didn't you?”",
+        voiceText: 'Voice Sigh: “Sheri sherii...” (0:03)',
+        tierIndex: 2,
+        sins: 47,
+        escapes: 4,
+        termLog: `
+          <div class="flex items-center gap-2">
+            <span class="text-[#F2C35B] font-bold">developer@kerala-box:~/workspace$</span>
+            <span class="text-[#FFF9ED] font-bold">python3 main.py</span>
+          </div>
+          <div class="text-[#8EA477] font-bold text-[13px]">[EXIT CODE 0] Execution completed without exception.</div>
+          <div class="text-[#FFF9ED] text-[13px]">Output: "Eligible for marriage brochure"</div>
+          <div class="p-2.5 bg-[#2A1E1C] rounded-xl text-[12px] text-[#F2C35B] border border-[#392A27]">
+            Ammayi Audit: Scanning commit history for stolen StackOverflow snippets...
+          </div>
+          <div class="text-[#FFF1D6]/70 flex items-center gap-2 pt-1">
+            <span class="w-2 h-4 bg-[#8EA477] animate-pulse inline-block"></span>
+            <span>Zero congratulations offered. "Don't get cocky."</span>
+          </div>
+        `
+      },
+      escape: {
+        mood: 'INCENSED (Tier 6/6)',
+        topMood: 'MOOD: INCENSED (99%)',
+        topMoodWidth: '99%',
+        verdictTag: 'ESCAPE INTERCEPTED',
+        malayalamQuote: "“പുതിയ session തുടങ്ങിയാൽ ഞാൻ മാറിപ്പോകുമെന്നു വിചാരിച്ചോ? അമ്മമായി എങ്ങോട്ടും പോവില്ല!”",
+        transQuote: "“Did you think starting a new session would make me disappear? Ammayi is not going anywhere!”",
+        voiceText: 'Alarm: “ODAN NOKKUVANO?!” (0:05)',
+        tierIndex: 6,
+        sins: 48,
+        escapes: 5,
+        termLog: `
+          <div class="text-[#ba1a1a] font-black text-[14px]">$ ^C ^C ^C ESCAPE TRAPPED</div>
+          <div class="bg-[#873F4B] text-[#FFF9ED] p-3 rounded-xl font-bold text-[13px] border-2 border-[#392A27]">
+            [ESCAPE DETECTOR TRIGGERED // IP LOGGED TO FAMILY WHATSAPP GROUP]
+          </div>
+          <div class="text-[#FFF9ED] text-[12.5px]">Process termination forbidden under Kerala Kinship Judicial Code § 420.</div>
+          <div class="text-[#F2C35B] font-bold text-[13px]">Ammayi orders: Return to your desk immediately and fix Line 5.</div>
+        `
+      },
+      furious: {
+        mood: 'INCENSED (Tier 6/6)',
+        topMood: 'MOOD: INCENSED (100%)',
+        topMoodWidth: '100%',
+        verdictTag: 'FAMILY COUNCIL ALERTED',
+        malayalamQuote: "“അയ്യോ! ഞാൻ പറഞ്ഞതല്ലേ എഞ്ചിനീയറിംഗ് വേണ്ടെന്ന്! ടീച്ചർ ട്രെയിനിംഗിന് പോയാൽ മതിയായിരുന്നു!”",
+        transQuote: "“Oh god! Didn't I tell you not to take Engineering! You should have just gone for Teacher Training!”",
+        voiceText: 'Shout: “Ayyoo Devame...” (0:04)',
+        tierIndex: 6,
+        sins: 52,
+        escapes: 5,
+        termLog: `
+          <div class="text-[#ba1a1a] font-black text-[15px]">[CRITICAL KINSHIP COLLAPSE // 11 ERRORS IN A ROW]</div>
+          <div class="p-3 bg-[#873F4B] text-[#FFF9ED] rounded-xl font-bold text-[13px] border-2 border-[#392A27]">
+            PANIC: DisappointmentError escalated to All-Kerala Aunties Group.
+            Calling your mother in 3... 2... 1...
+          </div>
+          <div class="text-[#FFF1D6]/70">Kernel Dump complete. All hope abandoned.</div>
+        `
+      }
+    };
+
+    function switchState(stateKey) {
+      const data = presets[stateKey];
+      if (!data) return;
+
+      document.querySelectorAll('.state-pill').forEach(btn => {
+        btn.className = 'state-pill px-3 py-1 rounded-xl font-mono text-xs font-bold text-[#392A27] hover:bg-[#FFF9ED] border-2 border-transparent transition-all flex items-center gap-1';
+      });
+      const activeBtn = document.getElementById(`btn-state-${stateKey}`);
+      if (activeBtn) {
+        if (stateKey === 'escape' || stateKey === 'error' || stateKey === 'furious') {
+          activeBtn.className = 'state-pill px-3 py-1 rounded-xl font-mono text-xs font-bold bg-[#873F4B] text-[#FFF9ED] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex items-center gap-1';
+        } else if (stateKey === 'success') {
+          activeBtn.className = 'state-pill px-3 py-1 rounded-xl font-mono text-xs font-bold bg-[#8EA477] text-[#FFF9ED] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex items-center gap-1';
+        } else {
+          activeBtn.className = 'state-pill px-3 py-1 rounded-xl font-mono text-xs font-bold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex items-center gap-1';
+        }
+      }
+
+      document.getElementById('ammayi-quote-text').textContent = data.malayalamQuote;
+      document.getElementById('ammayi-trans-text').innerHTML = `<span class="font-bold select-none text-[#E78C8D]">↳</span> ${data.transQuote}`;
+      document.getElementById('mood-pill').textContent = data.mood;
+      document.getElementById('verdict-banner-tag').textContent = data.verdictTag;
+      document.getElementById('voice-replay-text').textContent = data.voiceText;
+      document.getElementById('top-mood-indicator').textContent = data.topMood;
+      document.getElementById('top-mood-bar').style.width = data.topMoodWidth;
+      document.getElementById('metric-sins').textContent = data.sins;
+      document.getElementById('metric-escapes').textContent = data.escapes;
+
+      const termEl = document.getElementById('terminal-body');
+      const termWrap = document.getElementById('terminal-wrapper');
+      termEl.innerHTML = data.termLog;
+      if (stateKey === 'error' || stateKey === 'escape' || stateKey === 'furious') {
+        termWrap.classList.remove('animate-shake');
+        void termWrap.offsetWidth;
+        termWrap.classList.add('animate-shake');
+      }
+
+      for (let i = 1; i <= 6; i++) {
+        const tag = document.getElementById(`tier-tag-${i}`);
+        if (!tag) continue;
+        if (i === data.tierIndex) {
+          if (i === 6) tag.className = 'px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-[#873F4B] text-[#FFF9ED] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]';
+          else if (i >= 4) tag.className = 'px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-[#E78C8D] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]';
+          else if (i === 3) tag.className = 'px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]';
+          else tag.className = 'px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-[#8EA477] text-[#FFF9ED] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]';
+        } else {
+          tag.className = 'px-2 py-0.5 rounded-lg text-[10px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30';
+        }
+      }
+    }
+
+    function runExecution() {
+      switchState('error');
+    }
+
+    function makeItWorse() {
+      switchState('furious');
+    }
+
+    function submitDefense() {
+      const input = document.getElementById('defense-input');
+      const val = input.value.trim();
+      const reactionEl = document.getElementById('defense-reaction');
+      
+      if (!val) {
+        reactionEl.innerHTML = `
+          <span class="flex items-center gap-1 text-[#ba1a1a] truncate font-bold">
+            <span>⚠️</span>
+            <span>Silence? That also proves your guilt.</span>
+          </span>
+        `;
+        return;
+      }
+
+      const dismissals = [
+        "Excuse kettathu mathi. Fix cheyyu.",
+        "Sharmaji's son didn't give excuses, he gave 48 LPA.",
+        "Vallom nadakkumo ninakku? Rewrite cheyyu.",
+        "Ithrayum paranjo? Still your variable, still your error."
+      ];
+      const randomDismissal = dismissals[Math.floor(Math.random() * dismissals.length)];
+
+      reactionEl.innerHTML = `
+        <span class="flex items-center gap-1 text-[#392A27] truncate">
+          <span class="text-[#873F4B] font-bold">Verdict:</span>
+          <strong class="truncate font-extrabold">&ldquo;${randomDismissal}&rdquo;</strong>
+        </span>
+        <span class="text-[10px] text-[#FFF9ED] bg-[#873F4B] px-2 py-0.5 rounded-lg font-black uppercase shrink-0 border border-[#392A27]">REJECTED</span>
+      `;
+      input.value = '';
+    }
+
+    function playAmmayiAudio() {
+      const bars = document.getElementById('voice-bars');
+      const quoteEl = document.getElementById('ammayi-quote-text');
+      quoteEl.classList.add('text-[#873F4B]');
+      bars.classList.add('scale-125');
+      setTimeout(() => {
+        quoteEl.classList.remove('text-[#873F4B]');
+        bars.classList.remove('scale-125');
+      }, 1200);
+    }
+  </script>
+
+
+
+
+
+
+
+
+</body></html>

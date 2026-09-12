@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Ammayi Compiler — The Accumulated Sins</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Noto+Sans+Malayalam:wght@500;600;700;800;900&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "inverse-surface": "#422b20",
+            "surface-container-low": "#fff1ec",
+            "tertiary-fixed-dim": "#b7ce9e",
+            "tertiary-container": "#96ac7e",
+            "on-secondary-fixed-variant": "#5b4300",
+            "secondary-fixed": "#ffdf9f",
+            "inverse-on-surface": "#ffede6",
+            "surface-tint": "#93484a",
+            "on-secondary-fixed": "#261a00",
+            "on-tertiary-container": "#2e401c",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#0f2002",
+            "on-error": "#ffffff",
+            "surface-dim": "#f9d2c2",
+            "on-error-container": "#93000a",
+            "on-surface-variant": "#544342",
+            "tertiary-fixed": "#d3eab8",
+            "secondary-container": "#fece65",
+            "surface-variant": "#ffdbcc",
+            "on-surface": "#2b160d",
+            "secondary-fixed-dim": "#efc058",
+            "primary-fixed-dim": "#ffb3b3",
+            "error": "#ba1a1a",
+            "tertiary": "#50643d",
+            "surface-container-high": "#ffe2d7",
+            "surface-container-lowest": "#ffffff",
+            "on-primary": "#ffffff",
+            "outline": "#867272",
+            "surface-container": "#ffeae1",
+            "on-secondary": "#ffffff",
+            "on-primary-container": "#672529",
+            "on-secondary-container": "#755700",
+            "primary-fixed": "#ffdad9",
+            "surface-container-highest": "#ffdbcc",
+            "on-primary-fixed": "#3d060c",
+            "primary-container": "#e78c8d",
+            "on-primary-fixed-variant": "#763134",
+            "on-background": "#2b160d",
+            "secondary": "#795900",
+            "inverse-primary": "#ffb3b3",
+            "on-tertiary": "#ffffff",
+            "background": "#FFF1D6",
+            "outline-variant": "#d9c1c0",
+            "surface-bright": "#fff8f6",
+            "primary": "#93484a",
+            "surface": "#FFF9ED"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .clay-card {
+      background-color: #FFF9ED;
+      border: 2.5px solid #392A27;
+      box-shadow: 0 8px 0px #392A27, 0 14px 20px rgba(57, 42, 39, 0.12);
+    }
+    .clay-bubble {
+      background-color: #FFFDF8;
+      border: 2.5px solid #392A27;
+      box-shadow: 0 8px 0px #392A27, 0 16px 24px rgba(57, 42, 39, 0.1);
+    }
+    .clay-btn {
+      border: 2px solid #392A27;
+      box-shadow: 0 4px 0px #392A27;
+      transition: all 0.15s ease-in-out;
+    }
+    .clay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0px #392A27;
+    }
+    .clay-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0px #392A27;
+    }
+  </style>
+</head>
+<body class="bg-[#FFF1D6] font-['Plus_Jakarta_Sans'] text-[#392A27] antialiased min-h-screen flex flex-col selection:bg-[#F2C35B] selection:text-[#392A27]">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-[#FFF9ED] border-b-[3px] border-[#392A27] shadow-[0_4px_0px_#392A27]">
+  <div class="h-1.5 w-full bg-gradient-to-r from-[#873F4B] via-[#F2C35B] via-[#E78C8D] to-[#8EA477]"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4 sm:gap-6">
+    <div class="flex items-center gap-6 lg:gap-8">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <span class="text-2xl select-none group-hover:scale-110 transition-transform">👓</span>
+        <span class="font-['Bricolage_Grotesque'] text-xl font-extrabold tracking-tight uppercase text-[#392A27]">AMMAYI COMPILER</span>
+        <span class="px-2 py-0.5 rounded-full bg-[#873F4B] text-[#FFF9ED] font-mono font-bold text-[10px] border border-[#392A27]">PRO</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1.5">
+        <a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="index.html">Cover</a>
+        <a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="compiler.html">Compiler</a>
+        <a aria-current="page" class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]" href="history.html">History</a>
+        <a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="about.html">About</a>
+        <button onclick="openSettingsModal()" class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all flex items-center gap-1" type="button">Settings</button>
+      </nav>
+    </div>
+    <div class="flex items-center gap-3 sm:gap-4">
+      <div class="hidden sm:flex items-center gap-3 font-mono text-xs">
+        <span id="header-session-tag" class="text-[#392A27]/60 font-semibold">Session 01</span>
+        <span class="text-[#392A27]/30">•</span>
+        <div id="header-mood-badge" class="flex items-center gap-1.5 px-3 py-1 bg-[#FFE8DE] text-[#873F4B] border border-[#392A27]/30 rounded-xl font-bold">
+          <span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse inline-block"></span>
+          <span id="header-mood-text">Disappointed (64%)</span>
+        </div>
+      </div>
+      <a class="clay-btn px-4 py-1.5 bg-[#F4B6A6] text-[#392A27] rounded-full font-mono text-xs font-bold flex items-center gap-1.5 cursor-pointer" href="compiler.html">
+        <span class="material-symbols-outlined text-base">login</span>
+        <span>Enter Compiler →</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="w-full pb-16 flex-1">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex flex-col gap-6">
+
+    <!-- Top Sub-Navigation / Status Bar in Clay Style -->
+    <div class="clay-card rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[#FFF9ED]">
+      <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs">
+        <span class="px-3 py-1 rounded-full bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] font-extrabold flex items-center gap-1.5 shadow-[0_2px_0px_#392A27]">
+          <span class="material-symbols-outlined text-[16px]">menu_book</span>
+          HISTORY // LEDGER
+        </span>
+        <span class="px-3 py-1 rounded-full bg-[#FFE8DE] text-[#873F4B] font-bold border border-[#392A27]/40">
+          CASE #KL-4091 // OPEN INQUIRY
+        </span>
+        <span class="text-[#392A27]/40 hidden sm:inline">•</span>
+        <span class="text-[#392A27]/70 font-semibold hidden sm:inline">
+          REVISION: POST-MORTEM #88
+        </span>
+      </div>
+      <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+        <div class="flex items-center gap-2 font-mono">
+          <div class="flex flex-col text-right">
+            <span class="text-[10px] uppercase font-bold tracking-wider text-[#392A27]/60">Patience Level</span>
+            <span id="patience-percentage-text" class="font-['Bricolage_Grotesque'] text-sm text-[#ba1a1a] leading-tight font-extrabold">12%</span>
+          </div>
+          <div class="w-20 h-3 bg-[#FFE8DE] border-2 border-[#392A27] rounded-full overflow-hidden p-0.5">
+            <div id="patience-bar-fill" class="w-[12%] h-full bg-[#ba1a1a] rounded-full animate-pulse transition-all duration-500"></div>
+          </div>
+        </div>
+        <a class="clay-btn px-4 py-1.5 bg-[#F2C35B] text-[#392A27] rounded-xl font-mono text-xs font-bold tracking-wide flex items-center gap-1.5 cursor-pointer" href="compiler.html">
+          <span>ENTER COMPILER</span>
+          <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Title Bar with Sarcastic Stamps -->
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pt-1">
+      <div class="flex flex-col gap-1.5 max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE8DE] border border-[#392A27]/30 font-mono text-xs font-bold text-[#873F4B] w-fit">
+          <span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse"></span>
+          <span>CONFIDENTIAL HOUSEHOLD DOSSIER</span>
+        </div>
+        <h1 class="font-['Bricolage_Grotesque'] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#392A27] tracking-tight uppercase leading-tight">
+          YOUR RECORD // <span class="text-[#873F4B] underline decoration-[#873F4B]/40 decoration-wavy decoration-4">THE ACCUMULATED SINS</span>
+        </h1>
+        <p class="font-['Plus_Jakarta_Sans'] text-sm sm:text-base text-[#392A27]/80 leading-relaxed">
+          A meticulous ledger detailing your distinct achievements in transforming self-explanatory tasks into multi-generational crises.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 font-mono">
+        <div class="px-3 py-1 rounded-xl bg-[#FFF9ED] text-[#873F4B] text-xs uppercase font-extrabold -rotate-2 border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+          ✦ Your legacy.
+        </div>
+        <div class="px-3 py-1 rounded-xl bg-[#F2C35B] text-[#392A27] text-xs uppercase font-extrabold rotate-1 border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+          ✦ Still counting.
+        </div>
+        <div class="px-3 py-1 rounded-xl bg-[#873F4B] text-[#FFF9ED] text-xs uppercase font-extrabold -rotate-1 border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+          ✦ Ammayi remembers.
+        </div>
+      </div>
+    </div>
+
+    <!-- Official Opinion Section -->
+    <section class="clay-card rounded-3xl p-6 md:p-8 bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE]">
+      <div class="flex flex-col lg:flex-row items-center gap-8">
+        <!-- Mascot Column -->
+        <div class="relative shrink-0 group">
+          <div class="w-48 h-48 md:w-56 md:h-56 rounded-3xl overflow-hidden border-[3px] border-[#392A27] shadow-[0_8px_0px_#392A27] bg-[#FFF1D6] relative">
+            <img id="history-ammayi-portrait" alt="Kerala Ammayi" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105" src="assets/expressions/disappointed.png">
+            <div class="absolute bottom-0 inset-x-0 bg-[#873F4B] text-[#FFF9ED] text-center py-1.5 font-mono text-[11px] font-extrabold tracking-wider uppercase border-t-2 border-[#392A27]">
+              JUDICIAL SCRUTINY
+            </div>
+          </div>
+          <div class="absolute -top-2.5 -right-2.5 px-3 py-1 bg-[#E78C8D] text-[#392A27] font-mono font-extrabold text-[11px] rounded-full uppercase border-2 border-[#392A27] shadow-[0_3px_0px_#392A27]">
+            LIVE AMMAYI
+          </div>
+        </div>
+
+        <!-- Opinion Bubble -->
+        <div class="flex-1 w-full flex flex-col justify-center gap-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2 font-mono font-extrabold text-xs text-[#873F4B] tracking-wider uppercase">
+              <span>📢</span>
+              <span>AMMAYI'S OFFICIAL OPINION //</span>
+              <span class="px-3 py-0.5 rounded-full bg-[#E78C8D] text-[#392A27] text-xs font-extrabold border border-[#392A27]">
+                VERDICT #993-B
+              </span>
+            </div>
+            <div class="font-mono text-xs text-[#392A27]/70 font-bold bg-[#FFF9ED] px-3 py-1 rounded-xl border border-[#392A27]/40 shadow-[0_2px_0px_#392A27]">
+              STATUS: SCOWLING
+            </div>
+          </div>
+
+          <div class="relative clay-bubble rounded-3xl p-6 md:p-7">
+            <div class="hidden lg:block absolute -left-3.5 top-10 w-6 h-6 bg-[#FFFDF8] border-l-[3px] border-b-[3px] border-[#392A27] transform rotate-45"></div>
+            <h2 id="history-quote-text" class="font-['Noto_Sans_Malayalam'] font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] leading-snug tracking-tight">
+              “Ninte code kandittu error vannathalla. Error kandittu code undakkiyathaanennu thonnunnu.”
+            </h2>
+            <p class="font-['Plus_Jakarta_Sans'] text-base text-[#873F4B] font-semibold mt-3 italic border-t-2 border-[#392A27]/15 pt-3 flex items-center gap-2">
+              <span class="font-bold select-none text-[#E78C8D]">↳</span>
+              <span>“The error didn’t happen because of your code. It genuinely looks like you wrote code specifically inspired by an error.”</span>
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div class="p-3 bg-[#FFF9ED] rounded-2xl border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+              <span class="font-mono text-[10px] uppercase font-bold text-[#392A27]/60 block">CURRENT EVALUATION</span>
+              <span id="history-eval-pill" class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#873F4B]">DISAPPOINTED</span>
+              <span class="text-xs text-[#392A27]/70 block mt-0.5">Expected outcome: zero surprise</span>
+            </div>
+            <div class="p-3 bg-[#873F4B] text-[#FFF9ED] rounded-2xl border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+              <span class="font-mono text-[10px] uppercase font-bold text-[#FFF9ED]/70 block">OFFICIAL STATUS</span>
+              <span class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#F2C35B]">STILL ALLOWED TO CODE</span>
+              <span class="text-xs text-[#FFF9ED]/80 block mt-0.5">For reasons currently under domestic inquiry</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOT NORMAL STATISTICS -->
+    <div class="flex items-center justify-between pt-2">
+      <h2 class="font-['Bricolage_Grotesque'] text-2xl font-extrabold text-[#392A27]">
+        • YOUR RECORD — <span class="text-[#873F4B]">NOT NORMAL STATISTICS</span>
+      </h2>
+      <span class="text-xs font-mono font-bold text-[#392A27]/60 px-3 py-1 bg-[#FFF9ED] rounded-xl border border-[#392A27]/30">
+        UPDATED REAL-TIME
+      </span>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+      <div class="clay-card rounded-2xl p-4 flex flex-col justify-between bg-[#FFF9ED]">
+        <div class="flex items-center justify-between text-xs font-mono text-[#873F4B] font-extrabold">
+          <span>ERRORS</span>
+          <span class="material-symbols-outlined text-sm">bug_report</span>
+        </div>
+        <div id="stat-errors" class="font-['Bricolage_Grotesque'] text-3xl font-extrabold text-[#ba1a1a] my-1">
+          --
+        </div>
+        <div class="text-[11px] font-mono text-[#392A27]/70 italic">“Still going.”</div>
+      </div>
+
+      <div class="clay-card rounded-2xl p-4 flex flex-col justify-between bg-[#FFF9ED]">
+        <div class="flex items-center justify-between text-xs font-mono text-[#8EA477] font-extrabold">
+          <span>SUCCESSES</span>
+          <span class="material-symbols-outlined text-sm">check_circle</span>
+        </div>
+        <div id="stat-successes" class="font-['Bricolage_Grotesque'] text-3xl font-extrabold text-[#8EA477] my-1">
+          --
+        </div>
+        <div class="text-[11px] font-mono text-[#392A27]/70 italic">“Finally.”</div>
+      </div>
+
+      <div class="clay-card rounded-2xl p-4 flex flex-col justify-between bg-[#FFF9ED]">
+        <div class="flex items-center justify-between text-xs font-mono text-[#873F4B] font-extrabold">
+          <span>ESCAPES</span>
+          <span class="material-symbols-outlined text-sm">logout</span>
+        </div>
+        <div id="stat-escapes" class="font-['Bricolage_Grotesque'] text-3xl font-extrabold text-[#873F4B] my-1">
+          --
+        </div>
+        <div class="text-[11px] font-mono text-[#392A27]/70 italic">“Nice try.”</div>
+      </div>
+
+      <div class="clay-card rounded-2xl p-4 flex flex-col justify-between bg-[#FFF9ED]">
+        <div class="flex items-center justify-between text-xs font-mono text-[#F2C35B] font-extrabold">
+          <span>STREAK</span>
+          <span class="material-symbols-outlined text-sm">local_fire_department</span>
+        </div>
+        <div id="stat-streak" class="font-['Bricolage_Grotesque'] text-3xl font-extrabold text-[#392A27] my-1">
+          --
+        </div>
+        <div class="text-[11px] font-mono text-[#392A27]/70 italic">“Personal best.”</div>
+      </div>
+
+      <div class="clay-card rounded-2xl p-4 flex flex-col justify-between bg-[#FFF9ED]">
+        <div class="flex items-center justify-between text-xs font-mono text-[#392A27] font-extrabold">
+          <span>SESSIONS</span>
+          <span class="material-symbols-outlined text-sm">sync</span>
+        </div>
+        <div id="stat-sessions" class="font-['Bricolage_Grotesque'] text-3xl font-extrabold text-[#392A27] my-1">
+          --
+        </div>
+        <div class="text-[11px] font-mono text-[#392A27]/70 italic">“Veendum vannu.”</div>
+      </div>
+
+      <div class="clay-card rounded-2xl p-4 flex flex-col justify-between bg-[#FFF9ED]">
+        <div class="flex items-center justify-between text-xs font-mono text-[#ba1a1a] font-extrabold">
+          <span>PATIENCE</span>
+          <span class="material-symbols-outlined text-sm">warning</span>
+        </div>
+        <div id="stat-patience" class="font-['Bricolage_Grotesque'] text-3xl font-extrabold text-[#ba1a1a] my-1">
+          12%
+        </div>
+        <div class="text-[11px] font-mono text-[#ba1a1a] font-bold">“Do not test this.”</div>
+      </div>
+    </div>
+
+    <!-- PERFORMANCE REVIEW CARDS -->
+    <div class="clay-card rounded-3xl p-6 bg-[#FFF9ED]">
+      <div class="flex items-center justify-between pb-4 border-b-2 border-[#392A27]/15">
+        <div class="flex items-center gap-2.5 font-['Bricolage_Grotesque'] text-xl font-extrabold text-[#392A27]">
+          <span class="material-symbols-outlined text-[#873F4B]">assignment</span>
+          <span>AMMAYI'S PERFORMANCE REVIEW</span>
+        </div>
+        <span class="px-3 py-1 bg-[#873F4B] text-[#FFF9ED] text-xs font-mono font-extrabold rounded-xl border border-[#392A27]">
+          SEEN BY AMMAYI ✓
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+        <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/40 shadow-[0_2px_0px_#392A27]">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs text-[#873F4B] font-extrabold">PARAMETER 01: Code Writing</span>
+            <span class="px-2 py-0.5 bg-[#F2C35B] text-[#392A27] rounded-lg font-mono text-[10px] font-bold border border-[#392A27]">NEEDS SUPERVISION</span>
+          </div>
+          <div class="font-bold text-sm text-[#392A27] mt-2">“Onnu nokki ezhuthikko.”</div>
+          <div class="text-xs text-[#392A27]/70 italic mt-0.5">(Look carefully at the keyboard before typing blindly.)</div>
+        </div>
+
+        <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/40 shadow-[0_2px_0px_#392A27]">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs text-[#873F4B] font-extrabold">PARAMETER 02: Error Handling</span>
+            <span class="px-2 py-0.5 bg-[#873F4B] text-[#FFF9ED] rounded-lg font-mono text-[10px] font-bold border border-[#392A27]">REPEAT OFFENDER</span>
+          </div>
+          <div class="font-bold text-sm text-[#392A27] mt-2">“Ithu same mistake thanne alle?”</div>
+          <div class="text-xs text-[#392A27]/70 italic mt-0.5">(Isn't this the exact same syntax mistake from 10 minutes ago?)</div>
+        </div>
+
+        <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/40 shadow-[0_2px_0px_#392A27]">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs text-[#873F4B] font-extrabold">PARAMETER 03: Session Management</span>
+            <span class="px-2 py-0.5 bg-[#FFE8DE] text-[#873F4B] rounded-lg font-mono text-[10px] font-bold border border-[#392A27]">SUSPICIOUS BEHAVIOR</span>
+          </div>
+          <div class="font-bold text-sm text-[#392A27] mt-2">“Puthiya session aano?”</div>
+          <div class="text-xs text-[#392A27]/70 italic mt-0.5">(Opening another empty session hoping I will forget the previous catastrophe?)</div>
+        </div>
+
+        <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/40 shadow-[0_2px_0px_#392A27]">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs text-[#873F4B] font-extrabold">PARAMETER 04: Overall Conduct</span>
+            <span class="px-2 py-0.5 bg-[#FFF9ED] text-[#392A27] rounded-lg font-mono text-[10px] font-bold border border-[#392A27]">COULD BE BETTER</span>
+          </div>
+          <div class="font-bold text-sm text-[#392A27] mt-2">“Sheri.”</div>
+          <div class="text-xs text-[#392A27]/70 italic mt-0.5">(Fine. Whatever you think you are doing.)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOUSEHOLD LEDGER & ESCAPE ATTEMPTS -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Left 8 cols: Household Ledger from API -->
+      <div class="lg:col-span-8 clay-card rounded-3xl p-6 bg-[#FFF9ED] flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b-2 border-[#392A27]/15">
+            <div class="flex items-center gap-2 font-mono text-xs font-extrabold text-[#392A27]">
+              <span class="material-symbols-outlined text-[#873F4B]">menu_book</span>
+              <span>THE ACCUMULATED SINS (HOUSEHOLD LEDGER)</span>
+            </div>
+            <span class="px-2.5 py-0.5 bg-[#FFF1D6] text-[#392A27] rounded-lg border border-[#392A27]/30 text-[11px] font-mono font-bold">
+              RECENT 20 EVENTS
+            </span>
+          </div>
+          <p class="font-mono text-xs text-[#392A27]/60 mt-1 mb-4">
+            Browser cache clears. Ammayi's internal memory persistence does not.
+          </p>
+
+          <!-- Dynamic events container loaded from /api/history?limit=20 -->
+          <div id="household-ledger-container" class="space-y-3 font-mono text-xs">
+            <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/30 text-center text-[#392A27]/60">
+              Loading recent sins from backend...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 4 cols: Escape Attempts Tracker -->
+      <div class="lg:col-span-4 clay-card rounded-3xl p-6 bg-[#FFF9ED] flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b-2 border-[#392A27]/15">
+            <div class="flex items-center gap-2 font-mono text-xs font-extrabold text-[#392A27]">
+              <span class="material-symbols-outlined text-[#873F4B]">security</span>
+              <span>ESCAPE ATTEMPTS</span>
+            </div>
+            <span id="escape-attempts-badge" class="px-2 py-0.5 bg-[#873F4B] text-[#FFF9ED] rounded-lg font-mono text-[11px] font-extrabold">
+              0 SUCCESS
+            </span>
+          </div>
+          <p class="text-xs text-[#392A27]/80 leading-relaxed">
+            Documented instances of reloading, opening clean tabs, or closing windows to avoid facing consequences.
+          </p>
+
+          <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/40 space-y-2">
+            <div class="flex justify-between items-center text-xs font-mono font-bold">
+              <span>ATTEMPT TRACKER</span>
+              <span id="escape-tracker-label" class="text-[#873F4B]">0 Intercepted</span>
+            </div>
+            <div class="w-full h-3.5 bg-[#FFE8DE] border-2 border-[#392A27] rounded-full overflow-hidden p-0.5">
+              <div id="escape-progress-bar" class="h-full bg-[#873F4B] rounded-full w-[20%] transition-all duration-500"></div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-[#FFE8DE] rounded-2xl border-2 border-[#873F4B] text-xs font-mono text-[#873F4B] space-y-2">
+            <div class="flex items-center gap-1.5 font-bold">
+              <span class="material-symbols-outlined text-sm">visibility</span>
+              <span>DIRECT WARNING</span>
+            </div>
+            <p class="italic text-[11px] leading-relaxed">
+              “Session maattiyal njan maari pokumennu vicharicho? Did you honestly believe switching sessions would make me vanish?”
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t-2 border-[#392A27]/15 flex items-center justify-between text-[10px] font-mono text-[#392A27]/70 font-bold">
+          <span>EXIT LOG: RECORDED</span>
+          <span class="text-[#ba1a1a]">ZERO CLEMENCY</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Summation Box -->
+    <div class="clay-card rounded-3xl p-8 bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE] text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE8DE] border border-[#392A27]/30 font-mono text-xs font-bold text-[#873F4B]">
+        <span>FINAL SUMMATION // CASE #KL-4091</span>
+      </div>
+      <h2 class="font-['Bricolage_Grotesque'] text-3xl sm:text-4xl font-extrabold text-[#392A27]">
+        YOUR CODE MAY IMPROVE. <span class="text-[#873F4B] block sm:inline">AMMAYI’S OPINION WILL NOT.</span>
+      </h2>
+      <p class="font-['Noto_Sans_Malayalam'] text-base text-[#873F4B] font-bold italic">
+        “ഞാൻ എല്ലാം കണ്ടിട്ടുണ്ട്.” <span class="font-normal not-italic text-[#392A27]/70">(I have seen everything.)</span>
+      </p>
+
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+        <a class="clay-btn px-6 py-3 bg-[#873F4B] text-[#FFF9ED] rounded-2xl font-mono text-xs font-bold flex items-center gap-2 cursor-pointer" href="compiler.html">
+          <span class="material-symbols-outlined text-base">terminal</span>
+          <span>RETURN TO COMPILER</span>
+        </a>
+        <button onclick="triggerHistoryNewSession()" class="clay-btn px-6 py-3 bg-[#F2C35B] text-[#392A27] rounded-2xl font-mono text-xs font-bold flex items-center gap-2 cursor-pointer" type="button">
+          <span class="material-symbols-outlined text-base">restart_alt</span>
+          <span>START NEW SESSION</span>
+        </button>
+      </div>
+      <div class="text-[11px] font-mono text-[#392A27]/60 pt-2">
+        ⚠️ Ammayi has been informed of your inspection. Do not close tab without permission.
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-[#FFF9ED] border-t-[3px] border-[#392A27] py-2 px-4 md:px-6">
+  <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between font-mono text-xs text-[#392A27]/80 gap-2">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#8EA477] border border-[#392A27]"></span>
+        <span class="text-[#392A27] font-bold">Python 3.12 Kernel [Active]</span>
+      </div>
+      <span class="text-[#392A27]/40">•</span>
+      <span id="footer-sins-tag">Memory: 47 Sins Logged</span>
+      <span class="text-[#392A27]/40">•</span>
+      <span>Latency: 14ms</span>
+    </div>
+    <div class="flex items-center gap-1 text-[#873F4B] font-bold">
+      <span>⚖️</span>
+      <span class="italic">Your code has errors. Your Ammayi has opinions.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="frontend/js/ammayi.js"></script>
+<script>
+  // On History Page Load:
+  // 1. Render stats from cached state or backend
+  // 2. Fetch GET /api/history?limit=20
+  async function loadHistoryPage() {
+    const cached = getCachedState();
+    if (cached) {
+      renderState(cached);
+    }
+
+    try {
+      const resp = await fetch(`${API_BASE}/api/history?limit=20`);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.state) {
+          setCachedState(data.state);
+          renderState(data.state);
+        }
+        renderLedgerEvents(data.events || []);
+      }
+    } catch (e) {
+      console.warn('Could not fetch history from backend:', e.message);
+      renderLedgerFallback();
+    }
+  }
+
+  function renderState(state) {
+    if (!state) return;
+    const errors = state.total_errors ?? 0;
+    const successes = state.total_successes ?? 0;
+    const escapes = state.escape_attempts ?? 0;
+    const streak = state.longest_failure_streak ?? state.current_failure_streak ?? 0;
+    const sessions = state.total_sessions ?? 1;
+
+    // Patience calculation: decreases as anger rises
+    const angerScore = state.anger_score ?? 0;
+    const patience = Math.max(0, Math.min(100, 100 - (angerScore * 5)));
+
+    document.getElementById('stat-errors').textContent = String(errors).padStart(2, '0');
+    document.getElementById('stat-successes').textContent = String(successes).padStart(2, '0');
+    document.getElementById('stat-escapes').textContent = String(escapes).padStart(2, '0');
+    document.getElementById('stat-streak').textContent = String(streak).padStart(2, '0');
+    document.getElementById('stat-sessions').textContent = String(sessions).padStart(2, '0');
+    document.getElementById('stat-patience').textContent = `${patience}%`;
+
+    const patText = document.getElementById('patience-percentage-text');
+    if (patText) patText.textContent = `${patience}%`;
+    const patBar = document.getElementById('patience-bar-fill');
+    if (patBar) patBar.style.width = `${patience}%`;
+
+    const ft = document.getElementById('footer-sins-tag');
+    if (ft) ft.textContent = `Memory: ${errors} Sins Logged`;
+
+    const sTag = document.getElementById('header-session-tag');
+    if (sTag) sTag.textContent = `Session ${String(sessions).padStart(2, '0')}`;
+
+    const moodLabel = state.anger_label || (state.anger_level <= 2 ? 'CALM' : state.anger_level <= 4 ? 'DISAPPOINTED' : 'FURIOUS');
+    const moodText = document.getElementById('header-mood-text');
+    if (moodText) moodText.textContent = `${moodLabel} (Level ${state.anger_level ?? 0}/8)`;
+
+    const evalPill = document.getElementById('history-eval-pill');
+    if (evalPill) evalPill.textContent = moodLabel;
+
+    // Set Ammayi expression portrait
+    const portrait = document.getElementById('history-ammayi-portrait');
+    if (portrait) portrait.src = getAmmayiExpressionSrc(state.anger_level);
+
+    // Escape tracker bar
+    const escTracker = document.getElementById('escape-tracker-label');
+    if (escTracker) escTracker.textContent = `${escapes} Intercepted`;
+    const escBar = document.getElementById('escape-progress-bar');
+    if (escBar) escBar.style.width = `${Math.min(100, escapes * 20)}%`;
+    const escBadge = document.getElementById('escape-attempts-badge');
+    if (escBadge) escBadge.textContent = `${escapes} (0 SUCCESS)`;
+  }
+
+  function renderLedgerEvents(events) {
+    const container = document.getElementById('household-ledger-container');
+    if (!container) return;
+
+    if (!events || events.length === 0) {
+      container.innerHTML = `
+        <div class="p-4 bg-[#FFF1D6] rounded-2xl border-2 border-[#392A27]/30 text-center text-[#392A27]/60">
+          No compilation events recorded yet. Ammayi is watching quietly.
+        </div>
+      `;
+      return;
+    }
+
+    // Ensure newest events appear first:
+    const sorted = [...events].sort((a, b) => {
+      if (a.id && b.id) return b.id - a.id;
+      if (a.timestamp && b.timestamp) return new Date(b.timestamp) - new Date(a.timestamp);
+      return 0;
+    });
+
+    // If state wasn't cached, populate stats from events
+    if (!getCachedState()) {
+      let errCount = 0, succCount = 0, escCount = 0;
+      events.forEach(e => {
+        if (e.event_type === 'ERROR') errCount++;
+        else if (e.event_type === 'SUCCESS') succCount++;
+        else if (e.event_type === 'ESCAPE_ATTEMPT') escCount++;
+      });
+      const eEl = document.getElementById('stat-errors');
+      if (eEl && eEl.textContent === '--') eEl.textContent = String(errCount).padStart(2, '0');
+      const sEl = document.getElementById('stat-successes');
+      if (sEl && sEl.textContent === '--') sEl.textContent = String(succCount).padStart(2, '0');
+      const escEl = document.getElementById('stat-escapes');
+      if (escEl && escEl.textContent === '--') escEl.textContent = String(escCount).padStart(2, '0');
+    }
+
+    let html = '';
+    sorted.forEach(ev => {
+      const isError = ev.event_type === 'ERROR';
+      const isEscape = ev.event_type === 'ESCAPE_ATTEMPT';
+      const isSuccess = ev.event_type === 'SUCCESS';
+
+      let tagClass = 'bg-[#FFF9ED] text-[#392A27]';
+      if (isError) tagClass = 'bg-[#ba1a1a]/20 text-[#ba1a1a] border-[#ba1a1a]/40';
+      else if (isEscape) tagClass = 'bg-[#873F4B] text-[#FFF9ED] border-[#392A27]';
+      else if (isSuccess) tagClass = 'bg-[#8EA477]/20 text-[#50643D] border-[#8EA477]/40';
+
+      const timeStr = ev.timestamp ? new Date(ev.timestamp).toLocaleTimeString() : 'Recent';
+
+      html += `
+        <div class="p-3.5 bg-[#FFFDF8] rounded-2xl border-2 border-[#392A27]/30 shadow-[0_2px_0px_#392A27] flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-[#FFF1D6] border-2 border-[#392A27] font-bold flex items-center justify-center text-xs shadow-[0_1px_0px_#392A27]">
+              #${ev.id ?? '•'}
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md font-mono text-[10px] font-extrabold border ${tagClass}">
+                  ${ev.event_type}
+                </span>
+                ${ev.error_type ? `<span class="font-bold text-[#873F4B]">${ev.error_type}</span>` : ''}
+              </div>
+              <div class="text-[11px] text-[#392A27]/60 mt-0.5">
+                Anger score: ${ev.anger_before ?? 0} → ${ev.anger_after ?? 0} • Response: ${ev.response_id || 'Canonical'}
+              </div>
+            </div>
+          </div>
+          <div class="text-right text-[11px] font-mono text-[#392A27]/50">
+            ${timeStr}
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  }
+
+  function renderLedgerFallback() {
+    const container = document.getElementById('household-ledger-container');
+    if (!container) return;
+    container.innerHTML = `
+      <div class="p-3.5 bg-[#FFFDF8] rounded-2xl border-2 border-[#392A27]/30 shadow-[0_2px_0px_#392A27] flex items-center justify-between">
+        <div>
+          <span class="px-2 py-0.5 rounded-md font-mono text-[10px] font-extrabold bg-[#ba1a1a]/20 text-[#ba1a1a] border border-[#ba1a1a]/40">
+            ERROR
+          </span>
+          <span class="font-bold text-[#873F4B] ml-2">NameError</span>
+          <div class="text-[11px] text-[#392A27]/60 mt-0.5">
+            Offline record • Ammayi persists in memory.
+          </div>
+        </div>
+        <div class="text-[11px] text-[#392A27]/50 font-mono">Recorded</div>
+      </div>
+    `;
+  }
+
+  async function triggerHistoryNewSession() {
+    try {
+      const resp = await fetch(`${API_BASE}/api/session/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ existing_session_id: null })
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.session_id) setSessionId(data.session_id);
+        if (data.state) {
+          setCachedState(data.state);
+          renderState(data.state);
+        }
+        // Refresh ledger
+        loadHistoryPage();
+      }
+    } catch (e) {
+      console.warn('Session start error:', e);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadHistoryPage);
+</script>
+</body>
+</html>

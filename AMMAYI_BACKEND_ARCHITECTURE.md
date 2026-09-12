@@ -6,6 +6,12 @@ can consume: run code, get a classified error, get an Ammayi response + audio + 
 
 This is written to be handed to Kiro IDE in ordered chunks (see Section 10).
 
+> **Amendment (v1.1):** Added §16, "Ammayi Expression Mapping" — a small, derived,
+> presentation-only field (`expression`) added to every Ammayi response, for the frontend's
+> 4 static character images. No architecture changed: anger engine, persistence, execution,
+> error classification, session/escape logic, and response selection are all untouched.
+> Affected sections: §4 (schema), §10 (API contract), §13 (build order), §14 (superseded bullet).
+
 ---
 
 ## 1. TECH STACK (per AGENTS.md §27)
@@ -132,7 +138,8 @@ scoring in §8.
   "priority": 10,
   "min_streak": 0,
   "min_escape_attempts": 0,
-  "event_types": ["ERROR"]
+  "event_types": ["ERROR"],
+  "expression": null
 }
 ```
 
@@ -142,6 +149,7 @@ Field notes:
 - `event_types`: which of the six event types this line is eligible for. Lets you keep one JSON file for everything instead of separate files per event.
 - `min_streak` / `min_escape_attempts`: optional gating; response is only a candidate if current value ≥ this.
 - `anger_range`: inclusive `[min, max]` on the 0–8 anger **level** (not raw score — see §7).
+- `expression`: optional, one of `unimpressed` / `disappointed` / `furious` / `done`. Omit or set `null` for the overwhelming majority of lines — only set this when a specific recorded line's performance doesn't match what its anger level would normally imply (e.g. a deliberately quiet, deadpan line delivered at a lower anger level than `done` would usually require). See §16.
 
 ### 4.1 Coverage plan for ~20–30 recorded lines
 
@@ -392,7 +400,7 @@ Base path: `/api`. CORS: allow the Stitch-hosted frontend origin (and `*` during
   "session_id": "uuid",
   "is_new_session": true,
   "is_escape_attempt": true,
-  "ammayi_response": { "id": "R041", "text_ml": "...", "audio": "assets/audio/ammayi/R041.wav" } | null,
+  "ammayi_response": { "id": "R041", "text_ml": "...", "audio": "assets/audio/ammayi/R041.wav", "expression": "furious" } | null,
   "state": { ...see /api/state shape... }
 }
 ```
@@ -409,10 +417,15 @@ Base path: `/api`. CORS: allow the Stitch-hosted frontend origin (and `*` during
   "success": false,
   "error_type": "NameError",
   "timed_out": false,
-  "ammayi_response": { "id": "R015", "text_ml": "...", "audio": "assets/audio/ammayi/R015.wav" },
+  "ammayi_response": { "id": "R015", "text_ml": "...", "audio": "assets/audio/ammayi/R015.wav", "expression": "disappointed" },
   "state": { ...see below... }
 }
 ```
+
+`ammayi_response.expression` is always one of `unimpressed` / `disappointed` / `furious` /
+`done` — never null in the final response object (a canonical response's own `expression`
+field may be null/omitted in the JSON library, but the backend always resolves it to a
+concrete value before returning — see §16).
 
 ### `POST /api/excuse`
 ```json
@@ -528,6 +541,16 @@ Each chunk should leave the app runnable end-to-end (even if crudely) before mov
 - `response_usage` anti-repeat wiring
 - **Test**: trigger the same error 5x in a row, confirm variety (not literally the same line every time) and confirm anger-appropriate lines start showing up as anger rises.
 
+### Chunk 4.5 — Expression field (small, additive; see §16)
+- Add `get_expression(anger_level)` helper (in `response_engine.py`, alongside where the
+  final response object is assembled)
+- Wire it into every route that returns an `ammayi_response` (`/execute`, `/session/start`,
+  `/excuse`, `/make-it-worse`)
+- Add optional `expression` override field to `responses.json` schema (default `null`)
+- **Test**: table-driven unit test for the threshold boundaries (§16.3); confirm override
+  responses (if any are authored) take precedence; confirm every existing route's response
+  now includes a non-null `expression` without any other field changing shape.
+
 ### Chunk 5 — Optional features (only after Chunk 1–4 are solid)
 - `POST /api/excuse`
 - `POST /api/make-it-worse`
@@ -547,8 +570,10 @@ Each chunk should leave the app runnable end-to-end (even if crudely) before mov
 - No frontend layout, animation, or visual state machine — that's Stitch's job. The API
   gives you `anger_score`, `anger_level`, `anger_label`, and every counter needed to drive
   whatever UI they build; it doesn't assume how it's rendered.
-- No character expression selection logic — if Stitch wants to map `anger_level` to a
-  sprite/expression, that mapping lives frontend-side, not here.
+- The backend *does* resolve which of the 4 named expressions applies (§16), because that
+  mapping is simple, deterministic, and needed by any frontend consuming this API — but it
+  knows nothing about filenames, image assets, transitions, or animation. It emits a string;
+  Stitch decides what to do with it.
 - No auth system — deliberately out of scope per the single-memory design in §3.1/§6.1.
 
 ---
@@ -563,3 +588,91 @@ ESCAPE_ATTEMPT   → POST /api/session/start (new session AND total_sessions was
 EXCUSE           → POST /api/excuse
 MAKE_IT_WORSE    → POST /api/make-it-worse
 ```
+
+---
+
+## 16. AMMAYI EXPRESSION MAPPING (v1.1 amendment)
+
+Purely presentation-facing. Frontend has exactly 4 static images and needs a string to pick
+one. This section adds one derived field to the existing response payload — it does not
+touch anger scoring, persistence, execution, classification, session/escape logic, or the
+response-selection scoring algorithm in §8.
+
+### 16.1 The four expressions and thresholds
+
+```python
+def get_expression(anger_level: int) -> str:
+    if anger_level <= 2:
+        return "unimpressed"
+    elif anger_level <= 4:
+        return "disappointed"
+    elif anger_level <= 7:
+        return "furious"
+    else:
+        return "done"
+```
+
+Note `done` is not "angrier than furious" — per AGENTS.md's performance direction, it's
+exhausted/deadpan resignation after prolonged frustration. This is a labeling/vocabulary
+distinction only; the derivation is still a plain threshold on `anger_level` (0–8, from §7.1).
+
+**Where it lives**: `response_engine.py`, next to wherever the final response object
+(`id`, `text_ml`, `audio`, …) is assembled before being handed back to the route handler.
+This is an extension of that existing assembly step, not a new module — there is no
+separate "emotion engine."
+
+### 16.2 Resolution order
+
+```text
+1. If the selected canonical response has a non-null `expression` field → use it as-is.
+2. Otherwise → expression = get_expression(state.anger_level)
+```
+
+This is a two-line branch in the same function that already builds the response object —
+no new abstraction, no new table.
+
+```python
+def resolve_expression(chosen_response: dict, anger_level: int) -> str:
+    if chosen_response.get("expression"):
+        return chosen_response["expression"]
+    return get_expression(anger_level)
+```
+
+### 16.3 Test table
+
+```text
+anger_level  → expression
+0            → unimpressed
+1            → unimpressed
+2            → unimpressed
+3            → disappointed
+4            → disappointed
+5            → furious
+6            → furious
+7            → furious
+8            → done
+10           → done   (anger_level itself is capped at 8 per §7.1, but the
+                        function should not assume that cap — no upper guard needed,
+                        `else: return "done"` already covers anything > 7 safely)
+```
+
+Plus: one test asserting a response with an explicit `"expression": "furious"` override
+wins even when `state.anger_level` would otherwise derive `"unimpressed"`.
+
+### 16.4 What does NOT change
+
+- **No new column** on `ammayi_state` or any other table. `expression` is computed at
+  response-build time from the already-persisted `anger_level`; it is never written to
+  the database. Restarting the server, refreshing, or starting a new session all still
+  only persist the fields listed in §3.1 — `expression` simply gets recomputed fresh from
+  whatever `anger_level` currently is, which is exactly why it correctly reflects
+  Ammayi's memory immediately even across a brand-new session.
+- **No change** to `/api/execute`, `/api/session/start`, `/api/excuse`,
+  `/api/make-it-worse` request shapes, and no existing response field is renamed or
+  removed — `expression` is purely additive inside the existing `ammayi_response` object.
+- **No change** to §8's scoring/selection algorithm. Expression resolution happens strictly
+  *after* a response has already been chosen.
+- `responses.json` entries are not required to set `expression` — it's optional and
+  expected to stay `null`/omitted for nearly all lines (see §4 field notes). Only use it
+  for the rare line whose performance deliberately doesn't match its anger-level's default
+  expression.

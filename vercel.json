@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "node build.js",
-  "outputDirectory": "public",
-  "framework": null,
   "rewrites": [
     { "source": "/compiler", "destination": "/compiler.html" },
     { "source": "/history",  "destination": "/history.html"  },

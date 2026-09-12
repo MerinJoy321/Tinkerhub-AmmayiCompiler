@@ -10,13 +10,15 @@ database/
 # Git
 .git/
 
-# Design/prototype files (not needed for live site)
+# Design/prototype folders (not needed for live site)
 expressions/
 frontendpages/
+
+# Docs/misc
 *.pdf
 README.md
 AGENTS*.md
 AMMAYI_BACKEND_ARCHITECTURE.md
 
+# Generated build output — created by build.js at deploy time
 public/
-build.js

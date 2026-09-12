@@ -15,7 +15,7 @@ def _load_library():
     with open(_LIBRARY_PATH, encoding="utf-8") as f:
         return json.load(f)
 
-LIBRARY: list[dict] = _load_library()
+LIBRARY: list[dict] = _load_library()  # loaded once at import; restart server to refresh
 
 # ── absolute fallback (never fails) ──────────────────────────────────────────
 
@@ -24,6 +24,28 @@ ABSOLUTE_FALLBACK = {
     "text_ml": "ഓ, ഇതും ഒരു error ആണോ.",
     "audio": None,
 }
+
+# ── audio existence check ─────────────────────────────────────────────────────
+
+_ASSETS_ROOT = os.path.join(os.path.dirname(__file__), "..", "assets")
+
+def _resolve_audio(response: dict) -> dict:
+    """
+    Return a copy of the response dict with audio set to null if the wav
+    file does not exist on disk. Never raises — audio is best-effort.
+    """
+    audio_path = response.get("audio")
+    if not audio_path:
+        return response
+    # audio paths in JSON are like "/assets/audio/ammayi/R001.wav"
+    # resolve relative to project root
+    rel = audio_path.lstrip("/")
+    abs_path = os.path.normpath(os.path.join(_ASSETS_ROOT, "..", rel))
+    if not os.path.isfile(abs_path):
+        r = dict(response)
+        r["audio"] = None
+        return r
+    return response
 
 
 def select_response(
@@ -106,7 +128,7 @@ def select_response(
         # pick among tied top scorers randomly
         top_score = scored[0][0]
         top = [r for sc, r in scored if sc == top_score]
-        return random.choice(top)
+        return _resolve_audio(random.choice(top))
 
     # ── tier 2: drop anger hard filter, use soft ──────────────────────────────
     def score_t2(r: dict) -> int:
@@ -141,7 +163,7 @@ def select_response(
         if scored_t2[0][0] > 0:
             top_score = scored_t2[0][0]
             top = [r for sc, r in scored_t2 if sc == top_score]
-            return random.choice(top)
+            return _resolve_audio(random.choice(top))
 
     # ── tier 3: generic bucket for this event_type ────────────────────────────
     generic = [
@@ -153,7 +175,7 @@ def select_response(
         best = min(generic, key=lambda r: abs(
             (r.get("anger_range", [0, 8])[0] + r.get("anger_range", [0, 8])[1]) / 2 - anger_level
         ))
-        return best
+        return _resolve_audio(best)
 
     # ── tier 4: absolute fallback ─────────────────────────────────────────────
     return ABSOLUTE_FALLBACK

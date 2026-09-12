@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .clay-card {
+      background: #FFF9ED;
+      border: 3px solid #392A27;
+      box-shadow: 0 6px 0px #392A27;
+    }
+    .clay-card-sm {
+      background: #FFF9ED;
+      border: 2px solid #392A27;
+      box-shadow: 0 4px 0px #392A27;
+    }
+    .clay-bubble {
+      background: #FFFDF8;
+      border: 3px solid #392A27;
+      box-shadow: 0 5px 0px #392A27;
+    }
+    .clay-btn {
+      border: 2px solid #392A27;
+      box-shadow: 0 3px 0px #392A27;
+      transition: all 0.15s ease-in-out;
+    }
+    .clay-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0px #392A27;
+    }
+    .clay-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0px #392A27;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body class="bg-[#FFF1D6] font-['Plus_Jakarta_Sans'] text-[#392A27] antialiased min-h-screen flex flex-col selection:bg-[#F2C35B] selection:text-[#392A27]">
+<!-- 2. Persistent Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-[#FFF9ED] border-b-[3px] border-[#392A27] shadow-[0_4px_0px_#392A27]">
+<div class="h-1.5 w-full bg-gradient-to-r from-[#873F4B] via-[#F2C35B] via-[#E78C8D] to-[#8EA477]"></div>
+<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2.5">
+<span class="text-2xl select-none">👓</span>
+<span class="font-['Bricolage_Grotesque'] text-xl font-extrabold tracking-tight uppercase text-[#392A27]">AMMAYI COMPILER</span>
+<span class="px-2 py-0.5 rounded-full bg-[#873F4B] text-[#FFF9ED] font-mono font-bold text-[10px] border border-[#392A27]">PRO</span>
+</div>
+<nav class="hidden md:flex items-center gap-1.5">
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Cover</a>
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Compiler</a>
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">History</a>
+<a aria-current="page" class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]" href="#">About</a>
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-3 font-mono text-xs">
+<span class="text-[#392A27]/70 font-bold">Session 04</span>
+<span class="text-[#392A27]/30">•</span>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-[#FFE8DE] text-[#873F4B] border border-[#392A27]/30 rounded-xl font-bold">
+<span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse inline-block"></span>
+<span>Disappointed (64%)</span>
+</div>
+</div>
+<a class="clay-btn px-4 py-1.5 bg-[#F4B6A6] text-[#392A27] rounded-full font-mono text-xs font-bold flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-base">login</span>
+<span>Enter Compiler →</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="w-full pb-16 flex-1">
+<div class="max-w-7xl mx-auto px-6 pt-6 flex flex-col gap-8">
+<!-- Breadcrumb & Scrutiny Ribbon -->
+<div class="clay-card-sm rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 bg-[#FFFDF8]">
+<div class="flex items-center gap-2 font-mono text-xs font-bold text-[#392A27]/80">
+<span class="material-symbols-outlined text-[#873F4B] text-lg">menu_book</span>
+<span class="tracking-wider uppercase text-[#392A27]">DOCUMENTATION</span>
+<span class="text-[#392A27]/40">/</span>
+<span class="text-[#873F4B] uppercase tracking-wide">ABOUT &amp; MANIFESTO v2.4</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFE8DE] text-[#873F4B] border border-[#392A27]/30 font-mono text-xs font-bold">
+<span class="material-symbols-outlined text-sm">psychology_alt</span>
+<span class="tracking-wider uppercase">SESSION 06 // ACTIVE SCRUTINY</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] font-mono text-xs font-extrabold shadow-[0_2px_0px_#392A27]">
+<span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse"></span>
+<span class="tracking-wide uppercase">MOOD: SEVERELY JUDGMENTAL</span>
+</div>
+</div>
+</div>
+<!-- 3. Hero & Judgement Chamber Section -->
+<section class="clay-card rounded-3xl p-6 md:p-8 relative overflow-hidden bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE]">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+<!-- Hero Copy & Sarcastic Speech Bubble -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE8DE] border border-[#392A27]/40 w-fit">
+<span class="material-symbols-outlined text-[#873F4B] text-base">gavel</span>
+<span class="font-mono text-xs font-extrabold uppercase tracking-wider text-[#873F4B]">OFFICIAL POSITION PAPER // KINSHIP RUNTIME</span>
+</div>
+<h1 class="font-['Bricolage_Grotesque'] text-4xl md:text-5xl font-extrabold text-[#392A27] tracking-tight uppercase leading-none">
+              WHY DOES THIS <span class="text-[#873F4B] underline decoration-[#F2C35B] decoration-wavy decoration-4">EXIST?</span>
+</h1>
+<p class="font-['Plus_Jakarta_Sans'] text-base md:text-lg text-[#392A27]/85 font-medium leading-relaxed max-w-xl">
+              Modern compilers have become dangerously soft. They suggest polite remedies, hold hands, and pretend your syntax failures are shared emotional journeys. Someone needed to restore discipline.
+            </p>
+<!-- Sarcastic Speech Bubble -->
+<div class="clay-bubble rounded-2xl p-5 relative max-w-xl my-1">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[#873F4B] text-3xl shrink-0 select-none">format_quote</span>
+<div class="flex flex-col">
+<span class="font-['Bricolage_Grotesque'] text-xl md:text-2xl text-[#392A27] font-extrabold leading-tight">
+                    “Ithokke njan thanne paranju tharanam alle?”
+                  </span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm text-[#873F4B] font-bold italic mt-1.5 flex items-center gap-1.5 border-t border-[#392A27]/15 pt-2">
+<span class="text-xs font-mono uppercase bg-[#E78C8D] text-[#392A27] px-1.5 py-0.5 rounded border border-[#392A27]">TRANSLATION</span>
+                    “Do I really have to explain all of this to you myself? At your age?”
+                  </span>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-4 pt-1">
+<a class="clay-btn px-6 py-3 bg-[#F2C35B] text-[#392A27] rounded-2xl font-['Bricolage_Grotesque'] font-extrabold text-base tracking-wide flex items-center gap-2" href="#">
+<span>ENTER THE COMPILER</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+<span class="font-mono text-xs text-[#392A27]/80 font-bold bg-[#FFF1D6] px-3 py-1.5 rounded-xl border border-[#392A27]/30">
+                ⚡ 47 Previous developer sins currently queued
+              </span>
+</div>
+</div>
+<!-- Character Mascot Panel -->
+<div class="lg:col-span-5 flex flex-col items-center justify-center">
+<div class="w-full max-w-sm rounded-3xl bg-[#FFF9ED] border-[3px] border-[#392A27] shadow-[0_8px_0px_#392A27] p-5 flex flex-col items-center gap-4 relative">
+<div class="w-full flex items-center justify-between font-mono text-xs">
+<span class="px-2.5 py-1 rounded-xl bg-[#FFF1D6] border border-[#392A27] font-extrabold text-[#392A27]">SUBJECT: AMMAYI v2.4</span>
+<span class="px-2.5 py-1 rounded-full bg-[#FFE8DE] text-[#873F4B] border border-[#873F4B]/40 font-extrabold uppercase">DISAPPROVAL: 100%</span>
+</div>
+<!-- Cartoon Ammayi Illustration -->
+<div class="relative w-56 h-56 rounded-2xl overflow-hidden border-[3px] border-[#392A27] shadow-[0_4px_0px_#392A27] bg-[#FFF1D6] group">
+<img alt="Cartoon Kerala Ammayi Mascot sitting beside retro terminal judging bad code" class="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1XBsEU1ebQaGomvi4G2ZIp_vecGrVxS1rdjNwCi6B7eKKVD2oalKWE23UnpI-Yxs93uQiQwTklzoaM0dlbSLaCHMd85DxEUFkfdNwGXHrkmb7s_M51pwkOSlnu_Fy1xLbRds6QrQnuljWma8QQaMDt7yujTP3AOmjag21Tp83NEazh5ycqcZC3f33JZd3_18HBr8BejGA2ROVVvI2R2OAS31VI33rfma39jGFOLXlh_UF4kRbutG8l6BVkx"/>
+<div class="absolute bottom-0 inset-x-0 bg-[#873F4B] text-[#FFF9ED] text-center py-1 font-mono text-[10px] font-extrabold tracking-wider uppercase border-t-2 border-[#392A27]">
+                  JUDICIAL SCRUTINY
+                </div>
+<div class="absolute top-2 right-2 px-2 py-0.5 bg-[#E78C8D] text-[#392A27] font-mono font-extrabold text-[10px] rounded-full uppercase border border-[#392A27]">
+                  LIVE
+                </div>
+</div>
+<div class="text-center flex flex-col items-center">
+<span class="font-['Bricolage_Grotesque'] text-xl text-[#392A27] font-extrabold">Chief Disappointment Officer</span>
+<span class="font-mono text-xs text-[#873F4B] font-bold mt-0.5">Armed with hot tea &amp; notebook of sins</span>
+</div>
+<!-- Bottom Micro-Card Tray -->
+<div class="w-full grid grid-cols-2 gap-2 font-mono text-xs pt-1">
+<div class="p-2.5 rounded-xl bg-[#FFF1D6] border-2 border-[#392A27] text-center flex flex-col items-center shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-base text-[#873F4B]">local_cafe</span>
+<span class="text-[#392A27]/60 text-[10px] uppercase font-bold mt-0.5">CHAI LEVEL</span>
+<span class="font-extrabold text-[#392A27]">STEAMING</span>
+</div>
+<div class="p-2.5 rounded-xl bg-[#FFE8DE] border-2 border-[#392A27] text-center flex flex-col items-center shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-base text-[#873F4B]">menu_book</span>
+<span class="text-[#873F4B]/80 text-[10px] uppercase font-bold mt-0.5">SINS RECORDED</span>
+<span class="font-extrabold text-[#873F4B]">47 &amp; COUNTING</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. The Problem with Modern Compilers & Two Approaches -->
+<section class="flex flex-col gap-5">
+<div class="flex flex-col gap-1">
+<span class="font-mono text-xs uppercase tracking-widest text-[#873F4B] font-extrabold">CRITIQUE OF CURRENT INDUSTRY PRACTICES</span>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] uppercase tracking-tight">THE PROBLEM WITH MODERN COMPILERS</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+<div class="md:col-span-8 clay-card rounded-3xl p-6 md:p-7 flex flex-col justify-between gap-5 bg-[#FFF9ED]">
+<p class="font-['Plus_Jakarta_Sans'] text-base text-[#392A27]/85 leading-relaxed font-medium">
+              Over the past three decades, compilers have gradually abandoned their duty of moral guidance. They have degraded into timid customer service representatives who apologize for your own syntax infractions.
+            </p>
+<div class="space-y-3 font-mono text-xs">
+<div class="flex items-center gap-3 p-3.5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-[#392A27]/60 text-lg">check_circle</span>
+<span class="text-[#392A27] font-semibold text-sm">Modern compilers politely detect your errors.</span>
+</div>
+<div class="flex items-center gap-3 p-3.5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-[#392A27]/60 text-lg">check_circle</span>
+<span class="text-[#392A27] font-semibold text-sm">They explain errors using soft, non-judgmental language.</span>
+</div>
+<div class="flex items-center gap-3 p-3.5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-[#392A27]/60 text-lg">check_circle</span>
+<span class="text-[#392A27] font-semibold text-sm">They suggest helpful fixes and link to documentation like an eager intern.</span>
+</div>
+<div class="flex items-center gap-3 p-3.5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-[#392A27]/60 text-lg">check_circle</span>
+<span class="text-[#392A27] font-semibold text-sm">They patiently wait for your next mistake without rolling their eyes.</span>
+</div>
+</div>
+</div>
+<!-- Blunt Punchline Card -->
+<div class="md:col-span-4 rounded-3xl bg-[#873F4B] text-[#FFF9ED] border-[3px] border-[#392A27] shadow-[0_6px_0px_#392A27] p-6 md:p-7 flex flex-col justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl text-[#F2C35B]">front_hand</span>
+<span class="font-mono text-xs uppercase font-extrabold tracking-wider text-[#FFE8DE]">OFFICIAL RESPONSE</span>
+</div>
+<div class="my-6 flex flex-col gap-2">
+<span class="font-['Bricolage_Grotesque'] text-4xl md:text-5xl font-black leading-tight text-[#F2C35B]">
+                “Athu mathi.”
+              </span>
+<span class="font-['Plus_Jakarta_Sans'] text-base italic font-bold text-[#FFF9ED]">
+                (That is quite enough of that nonsense.)
+              </span>
+</div>
+<div class="p-3.5 rounded-2xl bg-[#2A1E1C]/40 border border-[#FFF1D6]/30 font-mono text-xs font-bold leading-relaxed text-[#FFF1D6]">
+              Politeness breeds runtime exceptions. Rigor demands disappointment.
+            </div>
+</div>
+</div>
+<!-- Two Approaches Comparison -->
+<div class="pt-4 flex flex-col gap-1">
+<span class="font-mono text-xs uppercase tracking-widest text-[#873F4B] font-extrabold">SYSTEM TAXONOMY</span>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] uppercase tracking-tight">TWO APPROACHES TO SOFTWARE DEVELOPMENT</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+<!-- Normal Compiler -->
+<div class="clay-card rounded-3xl p-6 md:p-7 flex flex-col justify-between bg-[#FFFDF8] opacity-90">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="font-mono text-xs uppercase tracking-wider text-[#392A27]/60 font-extrabold">TRADITIONAL COMPILER</span>
+<span class="px-2.5 py-0.5 rounded-lg bg-[#FFF1D6] border border-[#392A27]/30 font-mono text-xs font-bold text-[#392A27]/70">v0.0.0-PASSIVE</span>
+</div>
+<h3 class="font-['Bricolage_Grotesque'] text-2xl text-[#392A27] font-extrabold">Normal Compiler</h3>
+<ul class="space-y-3 font-['Plus_Jakarta_Sans'] text-sm text-[#392A27]/80">
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#392A27]/40 text-lg">check</span>
+<span>Detects syntax or semantic error</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#392A27]/40 text-lg">check</span>
+<span>Attempts to explain what failed</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#392A27]/40 text-lg">check</span>
+<span>Offers helpful suggestions</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#392A27]/40 text-lg">check</span>
+<span>Helps developer preserve self-esteem</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#392A27]/40 text-lg">check</span>
+<span>Immediately forgets the entire incident</span>
+</li>
+</ul>
+</div>
+<div class="mt-6 pt-4 border-t-2 border-[#392A27]/15">
+<div class="p-3 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] text-center font-mono text-xs text-[#392A27]/70 font-bold uppercase tracking-wider">
+                VERDICT: Very helpful. Zero personal growth.
+              </div>
+</div>
+</div>
+<!-- Ammayi Compiler -->
+<div class="clay-card rounded-3xl p-6 md:p-7 flex flex-col justify-between bg-[#FFF1D6] relative overflow-hidden">
+<div class="flex flex-col gap-4 relative z-10">
+<div class="flex items-center justify-between">
+<span class="font-mono text-xs uppercase tracking-wider text-[#873F4B] font-extrabold">MATRIARCHAL COMPILER</span>
+<div class="flex items-center gap-1 text-[#F2C35B] bg-[#392A27] px-2.5 py-1 rounded-full border border-[#392A27]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-mono text-[10px] text-[#FFF9ED] font-bold ml-1">CANONICAL</span>
+</div>
+</div>
+<h3 class="font-['Bricolage_Grotesque'] text-2xl text-[#392A27] font-extrabold">Ammayi Compiler</h3>
+<ul class="space-y-3 font-['Plus_Jakarta_Sans'] text-sm text-[#392A27]">
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#873F4B] text-xl">verified</span>
+<span class="font-bold">Detects error instantly</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#873F4B] text-xl">verified</span>
+<span class="font-bold">Deeply judges the developer behind the code</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#873F4B] text-xl">verified</span>
+<span class="font-bold">Writes incident in permanent SINS ledger</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#873F4B] text-xl">verified</span>
+<span class="font-bold">Gets progressively angrier with each compile</span>
+</li>
+<li class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#873F4B] text-xl">verified</span>
+<span class="font-bold">Holds immovable, devastating opinions</span>
+</li>
+</ul>
+</div>
+<div class="mt-6 pt-4 border-t-2 border-[#392A27]/20 relative z-10">
+<div class="p-3.5 rounded-2xl bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] text-center font-['Bricolage_Grotesque'] text-sm font-extrabold uppercase tracking-wider shadow-[0_3px_0px_#392A27]">
+                ROYAL STAMP: “NINTE CODE AANU.” (IT'S YOUR CODE. FACE IT.)
+              </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. The Great Divergence (Manifesto) -->
+<section class="clay-card rounded-3xl p-6 md:p-8 bg-[#FFF9ED] flex flex-col gap-6">
+<div class="flex flex-col gap-1 max-w-2xl">
+<span class="font-mono text-xs uppercase tracking-widest text-[#873F4B] font-extrabold">SECTION 03 // THE PHILOSOPHICAL SHIFT</span>
+<h2 class="font-['Bricolage_Grotesque'] text-3xl md:text-4xl text-[#392A27] font-extrabold uppercase tracking-tight">THE GREAT DIVERGENCE</h2>
+<p class="font-['Plus_Jakarta_Sans'] text-base text-[#873F4B] font-bold">When compilers stopped judging, Ammayi stepped in.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+<div class="lg:col-span-7 flex flex-col gap-4">
+<p class="font-['Plus_Jakarta_Sans'] text-base text-[#392A27]/85 font-medium leading-relaxed">
+              We believe a compiler should do more than translate human confusion into machine instructions. It should remember who caused the confusion in the first place.
+            </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col gap-1">
+<span class="font-mono text-xs text-[#873F4B] font-extrabold uppercase">TENET A</span>
+<span class="text-[#392A27] font-bold text-sm">It must remember who made the mistake across sessions.</span>
+</div>
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col gap-1">
+<span class="font-mono text-xs text-[#873F4B] font-extrabold uppercase">TENET B</span>
+<span class="text-[#392A27] font-bold text-sm">It must spot repeated careless habits and mock them.</span>
+</div>
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col gap-1">
+<span class="font-mono text-xs text-[#873F4B] font-extrabold uppercase">TENET C</span>
+<span class="text-[#392A27] font-bold text-sm">It must recognize when you restart to wipe your record.</span>
+</div>
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col gap-1">
+<span class="font-mono text-xs text-[#873F4B] font-extrabold uppercase">TENET D</span>
+<span class="text-[#392A27] font-bold text-sm">It must possess an authoritative, unfiltered opinion.</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 p-6 rounded-3xl bg-[#FFE8DE] border-2 border-[#392A27] shadow-[0_4px_0px_#392A27] flex flex-col justify-center gap-3 text-center">
+<span class="font-mono text-xs text-[#873F4B] uppercase tracking-widest font-extrabold">CORE AXIOM</span>
+<div class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl text-[#392A27] font-extrabold leading-snug">
+              “Code ezhuthunnathinu munpu onnu chinthikkeda.”
+            </div>
+<div class="font-['Plus_Jakarta_Sans'] text-sm text-[#873F4B] italic font-bold">
+              (“Think for a second before writing code, son.”)
+            </div>
+<div class="pt-2 font-mono text-[11px] text-[#392A27]/60 font-bold uppercase tracking-wider">
+              TRADITIONAL MALAYALI MATRIARCH PRINCIPLE #01
+            </div>
+</div>
+</div>
+</section>
+<!-- 6. The Ammayi Principles -->
+<section class="flex flex-col gap-5">
+<div class="flex flex-col gap-1">
+<span class="font-mono text-xs uppercase tracking-widest text-[#873F4B] font-extrabold">FOUNDATIONAL CANON</span>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] uppercase tracking-tight">THE AMMAYI PRINCIPLES</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+<!-- Principle 01 -->
+<div class="clay-card rounded-3xl p-5 flex flex-col justify-between gap-4 bg-[#FFF9ED]">
+<div class="flex items-center justify-between">
+<span class="w-8 h-8 rounded-full bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] font-mono text-xs font-extrabold flex items-center justify-center shadow-[0_2px_0px_#392A27]">01</span>
+<span class="font-mono text-[11px] text-[#873F4B] uppercase font-extrabold tracking-wider">CANONICAL</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-['Bricolage_Grotesque'] text-lg text-[#392A27] font-extrabold leading-snug">THE ERROR IS YOURS</h3>
+<div class="font-mono text-xs text-[#873F4B] font-bold">“Ninte code aanu.”</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/80 leading-relaxed font-medium">The code is yours. The fault is yours. The framework didn't do this. Python didn't do this. You did this.</p>
+</div>
+<div class="p-2.5 rounded-xl bg-[#FFF1D6] border border-[#392A27]/30 font-mono text-[11px] text-[#392A27]/70 font-semibold text-center">
+              Zero third-party scapegoating.
+            </div>
+</div>
+<!-- Principle 02 -->
+<div class="clay-card rounded-3xl p-5 flex flex-col justify-between gap-4 bg-[#FFF9ED]">
+<div class="flex items-center justify-between">
+<span class="w-8 h-8 rounded-full bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] font-mono text-xs font-extrabold flex items-center justify-center shadow-[0_2px_0px_#392A27]">02</span>
+<span class="font-mono text-[11px] text-[#873F4B] uppercase font-extrabold tracking-wider">CANONICAL</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-['Bricolage_Grotesque'] text-lg text-[#392A27] font-extrabold leading-snug">THE EXCUSE IS ALSO YOURS</h3>
+<div class="font-mono text-xs text-[#873F4B] font-bold">“Paranjolu.”</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/80 leading-relaxed font-medium">Go ahead, make your excuses. Explain your complex async race condition. Ammayi will wait, unconvinced and unimpressed.</p>
+</div>
+<div class="p-2.5 rounded-xl bg-[#FFF1D6] border border-[#392A27]/30 font-mono text-[11px] text-[#392A27]/70 font-semibold text-center">
+              Excuses logged directly to SINS journal.
+            </div>
+</div>
+<!-- Principle 03 -->
+<div class="clay-card rounded-3xl p-5 flex flex-col justify-between gap-4 bg-[#FFF9ED]">
+<div class="flex items-center justify-between">
+<span class="w-8 h-8 rounded-full bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] font-mono text-xs font-extrabold flex items-center justify-center shadow-[0_2px_0px_#392A27]">03</span>
+<span class="font-mono text-[11px] text-[#873F4B] uppercase font-extrabold tracking-wider">CANONICAL</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-['Bricolage_Grotesque'] text-lg text-[#392A27] font-extrabold leading-snug">AMMAYI REMEMBERS</h3>
+<div class="font-mono text-xs text-[#873F4B] font-bold">“Njan marakkilla.”</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/80 leading-relaxed font-medium">Closing tabs does not erase history. Restarting does not cleanse the soul. Your sins are committed to memory ledger.</p>
+</div>
+<div class="p-2.5 rounded-xl bg-[#FFF1D6] border border-[#392A27]/30 font-mono text-[11px] text-[#392A27]/70 font-semibold text-center">
+              Cross-tab &amp; session persistence.
+            </div>
+</div>
+<!-- Principle 04 -->
+<div class="clay-card rounded-3xl p-5 flex flex-col justify-between gap-4 bg-[#FFE8DE]">
+<div class="flex items-center justify-between">
+<span class="w-8 h-8 rounded-full bg-[#873F4B] text-[#FFF9ED] border-2 border-[#392A27] font-mono text-xs font-extrabold flex items-center justify-center shadow-[0_2px_0px_#392A27]">04</span>
+<span class="font-mono text-[11px] text-[#873F4B] uppercase font-extrabold tracking-wider">COROLLARY</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="font-['Bricolage_Grotesque'] text-lg text-[#392A27] font-extrabold leading-snug">YOUR CODE MAY IMPROVE</h3>
+<div class="font-mono text-xs text-[#873F4B] font-bold">“Athu nannayi.”</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/80 leading-relaxed font-medium">Good for you. You fixed an indent error after two hours. But do not celebrate early.</p>
+</div>
+<div class="p-2.5 rounded-xl bg-[#873F4B] text-[#FFF9ED] text-center font-mono text-[11px] font-extrabold tracking-wider border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+              AMMAYI'S OPINION WILL NOT.
+            </div>
+</div>
+</div>
+</section>
+<!-- 7. The Ammayi Code of Conduct -->
+<section class="flex flex-col gap-5">
+<div class="flex flex-col gap-1">
+<span class="font-mono text-xs uppercase tracking-widest text-[#873F4B] font-extrabold">TERMS OF EXECUTION</span>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] uppercase tracking-tight">THE AMMAYI CODE OF CONDUCT</h2>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27]/80">Please read carefully before executing scripts or pushing builds.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+<!-- Rule 01 -->
+<div class="clay-card-sm rounded-2xl p-4 bg-[#FFF9ED] flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[11px] font-extrabold text-[#392A27]/60 uppercase">RULE 01</span>
+<span class="material-symbols-outlined text-[#873F4B] text-lg">error_outline</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-['Bricolage_Grotesque'] text-base text-[#392A27] font-extrabold leading-tight">Do not blame compiler.</span>
+<span class="font-mono text-xs text-[#873F4B] italic font-bold">“Compiler enthu cheythu?”</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/75 mt-1">What did the compiler do to you? Did it type that bogus variable name?</span>
+</div>
+</div>
+<!-- Rule 02 -->
+<div class="clay-card-sm rounded-2xl p-4 bg-[#FFF9ED] flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[11px] font-extrabold text-[#392A27]/60 uppercase">RULE 02</span>
+<span class="material-symbols-outlined text-[#873F4B] text-lg">no_meeting_room</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-['Bricolage_Grotesque'] text-base text-[#392A27] font-extrabold leading-tight">Do not run to escape.</span>
+<span class="font-mono text-xs text-[#873F4B] italic font-bold">“Njan ivide undu.”</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/75 mt-1">Pressing "New Session" only adds an escape violation. I am right here.</span>
+</div>
+</div>
+<!-- Rule 03 -->
+<div class="clay-card-sm rounded-2xl p-4 bg-[#FFF9ED] flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[11px] font-extrabold text-[#392A27]/60 uppercase">RULE 03</span>
+<span class="material-symbols-outlined text-[#873F4B] text-lg">repeat</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-['Bricolage_Grotesque'] text-base text-[#392A27] font-extrabold leading-tight">No duplicate bugs.</span>
+<span class="font-mono text-xs text-[#873F4B] italic font-bold">“Ithu same mistake alle?”</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/75 mt-1">Making a bug once is careless. Making it twice insults the family heritage.</span>
+</div>
+</div>
+<!-- Rule 04 -->
+<div class="clay-card-sm rounded-2xl p-4 bg-[#FFF9ED] flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[11px] font-extrabold text-[#392A27]/60 uppercase">RULE 04</span>
+<span class="material-symbols-outlined text-[#873F4B] text-lg">sentiment_neutral</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-['Bricolage_Grotesque'] text-base text-[#392A27] font-extrabold leading-tight">Expect zero sympathy.</span>
+<span class="font-mono text-xs text-[#873F4B] italic font-bold">“Sheri.”</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/75 mt-1">When unit tests fail at 2 AM, the compiler will not hug you. It will say "Sheri".</span>
+</div>
+</div>
+<!-- Rule 05 -->
+<div class="clay-card-sm rounded-2xl p-4 bg-[#FFF9ED] flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-mono text-[11px] font-extrabold text-[#392A27]/60 uppercase">RULE 05</span>
+<span class="material-symbols-outlined text-[#873F4B] text-lg">psychology</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-['Bricolage_Grotesque'] text-base text-[#392A27] font-extrabold leading-tight">Not your counsellor.</span>
+<span class="font-mono text-xs text-[#873F4B] italic font-bold">“Njan counsellor alla.”</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/75 mt-1">I evaluate instructions. I don't give emotional support for bad loops.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Why She Remembers & Telemetry Terminal Box -->
+<section class="clay-card rounded-3xl p-6 md:p-8 bg-[#FFF9ED]">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<div class="lg:col-span-6 flex flex-col gap-4">
+<span class="font-mono text-xs uppercase tracking-widest text-[#873F4B] font-extrabold">STATE MANAGEMENT OF GUILT</span>
+<h2 class="font-['Bricolage_Grotesque'] text-3xl md:text-4xl text-[#392A27] font-extrabold uppercase tracking-tight">WHY SHE REMEMBERS</h2>
+<p class="font-['Plus_Jakarta_Sans'] text-base text-[#392A27]/85 leading-relaxed font-medium">
+              You started a new session. You cleared your terminal history. You thought everything was reset to zero.
+            </p>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27]/80 leading-relaxed">
+              It was not. Errors remain. Escape attempts remain. Ammayi's opinion remains firmly etched in local storage, indexed db, and maternal memory.
+            </p>
+<div class="flex items-center gap-2 pt-2 font-mono text-xs text-[#873F4B] font-extrabold">
+<span class="material-symbols-outlined text-lg">sync_saved_locally</span>
+<span>PERSISTENT GUILT ENGINE ACTIVE</span>
+</div>
+</div>
+<!-- Warm Dark Espresso Telemetry Terminal -->
+<div class="lg:col-span-6 rounded-3xl border-[3px] border-[#392A27] shadow-[0_8px_0px_#392A27] bg-[#392A27] overflow-hidden flex flex-col">
+<div class="h-11 px-5 bg-[#2A1E1C] border-b-2 border-[#392A27] flex items-center justify-between font-mono text-xs text-[#FFF1D6]">
+<div class="flex items-center gap-2.5">
+<span class="w-3 h-3 rounded-full bg-[#E78C8D] inline-block border border-[#FFF1D6]/30"></span>
+<span class="w-3 h-3 rounded-full bg-[#F2C35B] inline-block border border-[#FFF1D6]/30"></span>
+<span class="w-3 h-3 rounded-full bg-[#8EA477] inline-block border border-[#FFF1D6]/30"></span>
+<span class="font-bold ml-2 text-[#FFF9ED]">ammayi-telemetry-guard</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-lg bg-[#873F4B] text-[#FFF9ED] font-extrabold text-[10px] tracking-wider uppercase border border-[#FFF1D6]/30">ALERT_FLAGGED</span>
+</div>
+<div class="p-5 font-mono text-xs space-y-3 leading-relaxed text-[#FFF9ED] bg-[#392A27]">
+<div class="text-[#F2C35B] font-bold">$ ammayi-cli --inspect-soul</div>
+<div class="text-[#FFF1D6]/70">[12:44:09] Initializing Kernel... done.</div>
+<div class="text-[#FFF1D6]/70">[12:44:10] Scanning localStorage for guilt tokens...</div>
+<div class="p-3 rounded-xl bg-[#2A1E1C] border-2 border-[#873F4B] text-[#FFE8DE] font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[#F2C35B] text-base">warning</span>
+<span>ESCAPE ATTEMPT DETECTED! User attempted clean slate.</span>
+</div>
+<div class="text-[#F2C35B] font-semibold">
+                &gt;&gt; PREVIOUS GUILT LOADED: 47 UNFORGIVEN SINS
+              </div>
+<div class="text-[#E78C8D] font-semibold">
+                &gt;&gt; SESSION 06 COMMENCED UNDER HEAVY MONITORING
+              </div>
+<div class="p-3 rounded-xl bg-[#2A1E1C] text-[#FFF9ED] italic border border-[#392A27]">
+                Ammayi: “Kandupidichu. Nee evide pokana?”
+              </div>
+<div class="text-xs text-[#FFF1D6]/50 pt-1 flex items-center justify-between">
+<span>Kernel Telemetry active</span>
+<span class="animate-pulse text-[#F2C35B] font-black">_</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. The Final Verdict & Tactile CTA -->
+<section class="clay-card rounded-3xl p-8 md:p-10 bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE] flex flex-col items-center text-center gap-6 relative overflow-hidden">
+<div class="flex flex-col items-center gap-2 max-w-2xl">
+<span class="px-3.5 py-1 rounded-full bg-[#FFE8DE] text-[#873F4B] border border-[#392A27]/40 font-mono text-xs font-extrabold tracking-widest uppercase">
+            CONCLUDING PROCLAMATION
+          </span>
+<h2 class="font-['Bricolage_Grotesque'] text-3xl md:text-4xl text-[#392A27] font-extrabold uppercase mt-1">
+            THE FINAL VERDICT
+          </h2>
+<p class="font-['Plus_Jakarta_Sans'] text-base text-[#392A27]/80 leading-relaxed font-medium">
+            Your code may improve. Your errors may decrease. Your sessions may increase. Your excuses may become more creative. But Ammayi will remember.
+          </p>
+</div>
+<div class="clay-bubble rounded-2xl p-6 max-w-xl w-full">
+<span class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl text-[#392A27] font-black block">
+            “Njan ellam kandittundu.”
+          </span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm text-[#873F4B] italic font-bold block mt-1.5">
+            (I have seen everything. Don't test me.)
+          </span>
+</div>
+<div class="flex flex-col items-center gap-3 pt-2">
+<a class="clay-btn px-8 py-4 bg-[#F2C35B] text-[#392A27] rounded-2xl font-['Bricolage_Grotesque'] font-extrabold text-lg tracking-wide flex items-center gap-3 cursor-pointer shadow-[0_4px_0px_#392A27]" href="#">
+<span>ENTER THE COMPILER →</span>
+</a>
+<span class="font-mono text-xs text-[#873F4B] font-bold italic">
+            Go ahead. We'll be waiting right here.
+          </span>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Persistent Footer Banner -->
+<footer class="bg-[#FFF9ED] border-t-[3px] border-[#392A27] py-3 px-6 sticky bottom-0 z-40 shadow-[0_-2px_0px_#392A27]">
+<div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between font-mono text-xs text-[#392A27]/80 gap-3">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-[#8EA477] border border-[#392A27]"></span>
+<span class="text-[#392A27] font-bold">Python 3.12 Kernel [Active]</span>
+</div>
+<span class="text-[#392A27]/40">•</span>
+<span>Memory: 47 Sins Logged</span>
+<span class="text-[#392A27]/40">•</span>
+<span>Latency: 14ms</span>
+</div>
+<div class="flex items-center gap-1.5 text-[#873F4B] font-bold">
+<span>⚖️</span>
+<span class="italic">Your code has errors. Your Ammayi has opinions.</span>
+</div>
+</div>
+</footer>
+</body></html>

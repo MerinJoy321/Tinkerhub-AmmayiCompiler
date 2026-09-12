@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .clay-card {
+      background-color: #FFF9ED;
+      border: 2.5px solid #392A27;
+      box-shadow: 4px 4px 0px #392A27;
+    }
+    .clay-bubble {
+      background-color: #FFFDF8;
+      border: 2.5px solid #392A27;
+      box-shadow: 3px 3px 0px #392A27;
+    }
+    .clay-btn {
+      border: 2px solid #392A27;
+      box-shadow: 0 3px 0px #392A27;
+      transition: all 0.15s ease-in-out;
+    }
+    .clay-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 0px #392A27;
+    }
+    .clay-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0px #392A27;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary": "#ffffff",
+            "on-primary-fixed-variant": "#763134",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#96ac7e",
+            "on-secondary-container": "#755700",
+            "primary": "#93484a",
+            "on-surface-variant": "#544342",
+            "surface-container-low": "#fff1ec",
+            "on-tertiary-container": "#2e401c",
+            "on-secondary-fixed-variant": "#5b4300",
+            "on-primary": "#ffffff",
+            "surface-bright": "#fff8f6",
+            "surface-container-high": "#ffe2d7",
+            "surface-container": "#ffeae1",
+            "primary-fixed-dim": "#ffb3b3",
+            "secondary-container": "#fece65",
+            "surface-dim": "#f9d2c2",
+            "on-primary-fixed": "#3d060c",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#394c27",
+            "on-background": "#2b160d",
+            "primary-fixed": "#ffdad9",
+            "inverse-primary": "#ffb3b3",
+            "tertiary": "#50643d",
+            "on-tertiary": "#ffffff",
+            "primary-container": "#e78c8d",
+            "surface-variant": "#ffdbcc",
+            "secondary-fixed": "#ffdf9f",
+            "tertiary-fixed": "#d3eab8",
+            "on-tertiary-fixed": "#0f2002",
+            "background": "#FFF1D6",
+            "secondary-fixed-dim": "#efc058",
+            "surface-container-lowest": "#ffffff",
+            "outline": "#867272",
+            "inverse-surface": "#422b20",
+            "surface": "#FFF9ED",
+            "tertiary-fixed-dim": "#b7ce9e",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#ffdbcc",
+            "on-error": "#ffffff",
+            "secondary": "#795900",
+            "on-secondary-fixed": "#261a00",
+            "on-primary-container": "#672529",
+            "outline-variant": "#d9c1c0",
+            "inverse-on-surface": "#ffede6",
+            "surface-tint": "#93484a",
+            "on-surface": "#2b160d"
+          },
+          fontFamily: {
+            "headline-lg": ["Bricolage Grotesque"],
+            "headline-md": ["Bricolage Grotesque"],
+            "headline-sm": ["Bricolage Grotesque"],
+            "display-lg": ["Bricolage Grotesque"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "label-lg": ["JetBrains Mono"],
+            "label-md": ["JetBrains Mono"],
+            "label-sm": ["JetBrains Mono"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#FFF1D6] font-['Plus_Jakarta_Sans'] text-[#392A27] antialiased min-h-screen flex flex-col selection:bg-[#F2C35B] selection:text-[#392A27]">
+<!-- Persistent Top Navigation Bar matching Screen 7 -->
+<header class="sticky top-0 z-50 bg-[#FFF9ED] border-b-[3px] border-[#392A27] shadow-[0_4px_0px_#392A27]">
+<div class="h-1.5 w-full bg-gradient-to-r from-[#873F4B] via-[#F2C35B] via-[#E78C8D] to-[#8EA477]"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4 sm:gap-6">
+<div class="flex items-center gap-6 lg:gap-8">
+<div class="flex items-center gap-2.5">
+<span class="text-2xl select-none">👓</span>
+<span class="font-['Bricolage_Grotesque'] text-xl font-extrabold tracking-tight uppercase text-[#392A27]">AMMAYI COMPILER</span>
+<span class="px-2 py-0.5 rounded-full bg-[#873F4B] text-[#FFF9ED] font-mono font-bold text-[10px] border border-[#392A27]">PRO</span>
+</div>
+<nav class="hidden md:flex items-center gap-1.5">
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Cover</a>
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Compiler</a>
+<a aria-current="page" class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]" href="#">History</a>
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">About</a>
+<a class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold text-[#392A27]/70 hover:text-[#392A27] hover:bg-[#FFF1D6] transition-all" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-3 sm:gap-4">
+<div class="hidden sm:flex items-center gap-3 font-mono text-xs">
+<span class="text-[#392A27]/60 font-semibold">Session 04</span>
+<span class="text-[#392A27]/30">•</span>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-[#FFE8DE] text-[#873F4B] border border-[#392A27]/30 rounded-xl font-bold">
+<span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse inline-block"></span>
+<span>Disappointed (64%)</span>
+</div>
+</div>
+<a class="clay-btn px-4 py-1.5 bg-[#F4B6A6] text-[#392A27] rounded-full font-mono text-xs font-bold flex items-center gap-1.5" href="#">
+<span class="material-symbols-outlined text-base">login</span>
+<span>Enter Compiler →</span>
+</a>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="w-full pb-16 flex-1">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex flex-col gap-6">
+<!-- Top Sub-Navigation / Status Bar in Clay Style -->
+<div class="clay-card rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 bg-[#FFF9ED]">
+<div class="flex flex-wrap items-center gap-2.5 font-mono text-xs">
+<span class="px-3 py-1 rounded-full bg-[#F2C35B] text-[#392A27] border-2 border-[#392A27] font-extrabold flex items-center gap-1.5 shadow-[0_2px_0px_#392A27]">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+            HISTORY // LEDGER
+          </span>
+<span class="px-3 py-1 rounded-full bg-[#FFE8DE] text-[#873F4B] font-bold border border-[#392A27]/40">
+            CASE #KL-4091 // OPEN INQUIRY
+          </span>
+<span class="text-[#392A27]/40 hidden sm:inline">•</span>
+<span class="text-[#392A27]/70 font-semibold hidden sm:inline">
+            REVISION: POST-MORTEM #88
+          </span>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+<div class="flex items-center gap-2 font-mono">
+<div class="flex flex-col text-right">
+<span class="text-[10px] uppercase font-bold tracking-wider text-[#392A27]/60">Patience Level</span>
+<span class="font-['Bricolage_Grotesque'] text-sm text-[#ba1a1a] leading-tight font-extrabold">12%</span>
+</div>
+<div class="w-20 h-3 bg-[#FFE8DE] border-2 border-[#392A27] rounded-full overflow-hidden p-0.5">
+<div class="w-[12%] h-full bg-[#ba1a1a] rounded-full animate-pulse"></div>
+</div>
+</div>
+<a class="clay-btn px-4 py-1.5 bg-[#F2C35B] text-[#392A27] rounded-xl font-mono text-xs font-bold tracking-wide flex items-center gap-1.5" href="#">
+<span>ENTER COMPILER</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Page Title Bar with Sarcastic Stamps -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pt-1">
+<div class="flex flex-col gap-1.5 max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFE8DE] border border-[#392A27]/30 font-mono text-xs font-bold text-[#873F4B] w-fit">
+<span class="w-2 h-2 rounded-full bg-[#873F4B] animate-pulse"></span>
+<span>CONFIDENTIAL HOUSEHOLD DOSSIER</span>
+</div>
+<h1 class="font-['Bricolage_Grotesque'] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#392A27] tracking-tight uppercase leading-tight">
+            YOUR RECORD // <span class="text-[#873F4B] underline decoration-[#873F4B]/40 decoration-wavy decoration-4">THE ACCUMULATED SINS</span>
+</h1>
+<p class="font-['Plus_Jakarta_Sans'] text-sm sm:text-base text-[#392A27]/80 leading-relaxed">
+            A meticulous ledger detailing your distinct achievements in transforming self-explanatory tasks into multi-generational crises.
+          </p>
+</div>
+<!-- Sarcastic Ribbon Stamps -->
+<div class="flex flex-wrap items-center gap-2 font-mono">
+<div class="px-3 py-1 rounded-xl bg-[#FFF9ED] text-[#873F4B] text-xs uppercase font-extrabold -rotate-2 border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+            ✦ Your legacy.
+          </div>
+<div class="px-3 py-1 rounded-xl bg-[#F2C35B] text-[#392A27] text-xs uppercase font-extrabold rotate-1 border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+            ✦ Still counting.
+          </div>
+<div class="px-3 py-1 rounded-xl bg-[#873F4B] text-[#FFF9ED] text-xs uppercase font-extrabold -rotate-1 border-2 border-[#392A27] shadow-[0_2px_0px_#392A27]">
+            ✦ Ammayi remembers.
+          </div>
+</div>
+</div>
+<!-- Hero Section: Ammayi's Official Opinion (Judgement Panel matching Screen 7) -->
+<section class="clay-card rounded-3xl p-6 md:p-8 bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE]">
+<div class="flex flex-col lg:flex-row items-center gap-8">
+<!-- Mascot Portrait Column -->
+<div class="relative shrink-0 group">
+<div class="w-48 h-48 md:w-56 md:h-56 rounded-3xl overflow-hidden border-[3px] border-[#392A27] shadow-[0_8px_0px_#392A27] bg-[#FFF1D6] relative">
+<img alt="Editorial cartoon of Kerala Ammayi sitting with arms crossed judging your bad code" class="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1XBsEU1ebQaGomvi4G2ZIp_vecGrVxS1rdjNwCi6B7eKKVD2oalKWE23UnpI-Yxs93uQiQwTklzoaM0dlbSLaCHMd85DxEUFkfdNwGXHrkmb7s_M51pwkOSlnu_Fy1xLbRds6QrQnuljWma8QQaMDt7yujTP3AOmjag21Tp83NEazh5ycqcZC3f33JZd3_18HBr8BejGA2ROVVvI2R2OAS31VI33rfma39jGFOLXlh_UF4kRbutG8l6BVkx"/>
+<div class="absolute bottom-0 inset-x-0 bg-[#873F4B] text-[#FFF9ED] text-center py-1.5 font-mono text-[11px] font-extrabold tracking-wider uppercase border-t-2 border-[#392A27]">
+                JUDICIAL SCRUTINY
+              </div>
+</div>
+<div class="absolute -top-2.5 -right-2.5 px-3 py-1 bg-[#E78C8D] text-[#392A27] font-mono font-extrabold text-[11px] rounded-full uppercase border-2 border-[#392A27] shadow-[0_3px_0px_#392A27]">
+              LIVE AMMAYI
+            </div>
+</div>
+<!-- Opinion Bubble & Verdict Column -->
+<div class="flex-1 w-full flex flex-col justify-center gap-4">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 font-mono font-extrabold text-xs text-[#873F4B] tracking-wider uppercase">
+<span>📢</span>
+<span>AMMAYI'S OFFICIAL OPINION //</span>
+<span class="px-3 py-0.5 rounded-full bg-[#E78C8D] text-[#392A27] text-xs font-extrabold border border-[#392A27]">
+                  VERDICT #993-B
+                </span>
+</div>
+<div class="font-mono text-xs text-[#392A27]/70 font-bold bg-[#FFF9ED] px-3 py-1 rounded-xl border border-[#392A27]/40 shadow-[0_2px_0px_#392A27]">
+                STATUS: SCOWLING (14:02 IST)
+              </div>
+</div>
+<!-- Speech Bubble -->
+<div class="relative clay-bubble rounded-3xl p-6 md:p-7">
+<div class="hidden lg:block absolute -left-3.5 top-10 w-6 h-6 bg-[#FFFDF8] border-l-[3px] border-b-[3px] border-[#392A27] transform rotate-45"></div>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] leading-snug tracking-tight">
+                “Ninte code kandittu error vannathalla. Error kandittu code undakkiyathaanennu thonnunnu.”
+              </h2>
+<p class="font-['Plus_Jakarta_Sans'] text-base text-[#873F4B] font-semibold mt-3 italic border-t-2 border-[#392A27]/15 pt-3 flex items-center gap-2">
+<span class="font-bold select-none text-[#E78C8D]">↳</span>
+                “The error didn’t happen because of your code. It genuinely looks like you wrote code specifically inspired by an error.”
+              </p>
+</div>
+<!-- Bottom Badges in Card -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+<div class="p-3.5 rounded-2xl bg-[#FFF9ED] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col justify-between">
+<span class="font-mono text-[11px] uppercase font-bold text-[#873F4B]">Current Evaluation</span>
+<span class="font-['Bricolage_Grotesque'] text-xl font-extrabold text-[#392A27]">DISAPPOINTED</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/70 font-medium">Expected outcome: zero surprise</span>
+</div>
+<div class="p-3.5 rounded-2xl bg-[#873F4B] text-[#FFF9ED] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col justify-between">
+<span class="font-mono text-[11px] uppercase font-bold text-[#F2C35B]">Official Status</span>
+<span class="font-['Bricolage_Grotesque'] text-xl font-extrabold text-[#FFF9ED]">STILL ALLOWED TO CODE</span>
+<span class="font-['Plus_Jakarta_Sans'] text-xs text-[#FFF9ED]/80 font-medium">For reasons currently under domestic inquiry</span>
+</div>
+</div>
+<div class="pt-2 border-t-2 border-[#392A27]/15 flex flex-wrap items-center justify-between text-xs font-mono text-[#392A27]/70 font-semibold gap-2">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#873F4B] text-[16px]">gavel</span>
+                Ruling signed in red ink. Unappealable.
+              </span>
+<span class="text-[#873F4B] font-bold">SESSION_LOCK: UNGUARDED</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Your Record — Not Normal Statistics -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#873F4B]"></span>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] tracking-tight uppercase">
+              YOUR RECORD — <span class="text-[#873F4B]">NOT NORMAL STATISTICS</span>
+</h2>
+</div>
+<span class="font-mono text-xs font-bold text-[#392A27]/60 uppercase bg-[#FFE8DE] px-3 py-1 rounded-xl border border-[#392A27]/30">
+            UPDATED REAL-TIME
+          </span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+<!-- Card 1: Errors -->
+<div class="p-4 rounded-2xl bg-[#FFF9ED] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between hover:-translate-y-0.5 transition-all">
+<div class="flex items-center justify-between text-[#873F4B]">
+<span class="font-mono text-xs font-extrabold uppercase">Errors</span>
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+</div>
+<div class="my-2">
+<div class="font-['Bricolage_Grotesque'] text-4xl text-[#ba1a1a] font-extrabold leading-none">52</div>
+</div>
+<div class="pt-2 border-t-2 border-[#392A27]/15">
+<span class="font-mono text-xs text-[#392A27]/80 font-bold">“Still going.”</span>
+</div>
+</div>
+<!-- Card 2: Successful Runs -->
+<div class="p-4 rounded-2xl bg-[#FFF9ED] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between hover:-translate-y-0.5 transition-all">
+<div class="flex items-center justify-between text-[#50643d]">
+<span class="font-mono text-xs font-extrabold uppercase">Successes</span>
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</div>
+<div class="my-2">
+<div class="font-['Bricolage_Grotesque'] text-4xl text-[#50643d] font-extrabold leading-none">07</div>
+</div>
+<div class="pt-2 border-t-2 border-[#392A27]/15">
+<span class="font-mono text-xs text-[#392A27]/80 font-bold">“Finally.”</span>
+</div>
+</div>
+<!-- Card 3: Escape Attempts -->
+<div class="p-4 rounded-2xl bg-[#FFF9ED] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between hover:-translate-y-0.5 transition-all">
+<div class="flex items-center justify-between text-[#795900]">
+<span class="font-mono text-xs font-extrabold uppercase">Escapes</span>
+<span class="material-symbols-outlined text-[18px]">logout</span>
+</div>
+<div class="my-2">
+<div class="font-['Bricolage_Grotesque'] text-4xl text-[#795900] font-extrabold leading-none">05</div>
+</div>
+<div class="pt-2 border-t-2 border-[#392A27]/15">
+<span class="font-mono text-xs text-[#392A27]/80 font-bold">“Nice try.”</span>
+</div>
+</div>
+<!-- Card 4: Longest Streak -->
+<div class="p-4 rounded-2xl bg-[#FFF9ED] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between hover:-translate-y-0.5 transition-all">
+<div class="flex items-center justify-between text-[#873F4B]">
+<span class="font-mono text-xs font-extrabold uppercase">Streak</span>
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+</div>
+<div class="my-2">
+<div class="font-['Bricolage_Grotesque'] text-4xl text-[#873F4B] font-extrabold leading-none">17</div>
+</div>
+<div class="pt-2 border-t-2 border-[#392A27]/15">
+<span class="font-mono text-xs text-[#392A27]/80 font-bold">“Personal best.”</span>
+</div>
+</div>
+<!-- Card 5: Sessions -->
+<div class="p-4 rounded-2xl bg-[#FFF9ED] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between hover:-translate-y-0.5 transition-all">
+<div class="flex items-center justify-between text-[#392A27]">
+<span class="font-mono text-xs font-extrabold uppercase">Sessions</span>
+<span class="material-symbols-outlined text-[18px]">repeat</span>
+</div>
+<div class="my-2">
+<div class="font-['Bricolage_Grotesque'] text-4xl text-[#392A27] font-extrabold leading-none">06</div>
+</div>
+<div class="pt-2 border-t-2 border-[#392A27]/15">
+<span class="font-mono text-xs text-[#392A27]/80 font-bold">“Veendum vannu.”</span>
+</div>
+</div>
+<!-- Card 6: Patience -->
+<div class="p-4 rounded-2xl bg-[#FFE8DE] border-2 border-[#ba1a1a] shadow-[0_3px_0px_#392A27] flex flex-col justify-between hover:-translate-y-0.5 transition-all">
+<div class="flex items-center justify-between text-[#ba1a1a]">
+<span class="font-mono text-xs font-black uppercase">Patience</span>
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+<div class="my-2">
+<div class="font-['Bricolage_Grotesque'] text-4xl text-[#ba1a1a] font-extrabold leading-none">12%</div>
+</div>
+<div class="pt-2 border-t-2 border-[#ba1a1a]/30">
+<span class="font-mono text-xs text-[#ba1a1a] font-black">“Do not test this.”</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Performance Review & Rubber Stamps -->
+<section class="clay-card rounded-3xl p-6 md:p-8 bg-[#FFF9ED] flex flex-col gap-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#873F4B] text-2xl">assignment_ind</span>
+<h2 class="font-['Bricolage_Grotesque'] text-2xl md:text-3xl font-extrabold text-[#392A27] tracking-tight uppercase">
+                AMMAYI'S PERFORMANCE REVIEW
+              </h2>
+</div>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27]/80 mt-1">
+              Official inquiry report into behavioral misconduct during active compilation sessions.
+            </p>
+</div>
+<span class="px-4 py-1.5 rounded-full bg-[#873F4B] text-[#FFF9ED] font-mono text-xs font-bold border border-[#392A27] shadow-[0_2px_0px_#392A27] w-fit">
+            SEEN BY AMMAYI ✓
+          </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Item 1 -->
+<div class="p-5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="font-mono text-xs uppercase font-bold text-[#873F4B]">Parameter 01</span>
+<h3 class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Code Writing</h3>
+</div>
+<div class="px-3 py-1 rounded-xl bg-[#F2C35B] text-[#392A27] font-mono text-xs uppercase font-black border-2 border-[#392A27] rotate-1 shadow-[0_2px_0px_#392A27]">
+                NEEDS SUPERVISION
+              </div>
+</div>
+<div class="p-3.5 rounded-xl bg-[#FFF9ED] border border-[#392A27]/30 flex flex-col gap-1">
+<span class="font-mono text-xs uppercase text-[#873F4B] font-extrabold">Ammayi's Remark:</span>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27] italic font-semibold">
+                “Onnu nokki ezhuthikko.” <span class="text-[#392A27]/70 not-italic font-normal">(Look carefully at the keyboard before typing blindly.)</span>
+</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="font-mono text-xs uppercase font-bold text-[#873F4B]">Parameter 02</span>
+<h3 class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Error Handling</h3>
+</div>
+<div class="px-3 py-1 rounded-xl bg-[#ba1a1a] text-[#FFF9ED] font-mono text-xs uppercase font-black border-2 border-[#392A27] -rotate-1 shadow-[0_2px_0px_#392A27]">
+                REPEAT OFFENDER
+              </div>
+</div>
+<div class="p-3.5 rounded-xl bg-[#FFF9ED] border border-[#392A27]/30 flex flex-col gap-1">
+<span class="font-mono text-xs uppercase text-[#873F4B] font-extrabold">Ammayi's Remark:</span>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27] italic font-semibold">
+                “Ithu same mistake thanne alle?” <span class="text-[#392A27]/70 not-italic font-normal">(Isn't this the exact same syntax mistake from 10 minutes ago?)</span>
+</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="font-mono text-xs uppercase font-bold text-[#873F4B]">Parameter 03</span>
+<h3 class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Session Management</h3>
+</div>
+<div class="px-3 py-1 rounded-xl bg-[#E78C8D] text-[#392A27] font-mono text-xs uppercase font-black border-2 border-[#392A27] rotate-2 shadow-[0_2px_0px_#392A27]">
+                SUSPICIOUS BEHAVIOR
+              </div>
+</div>
+<div class="p-3.5 rounded-xl bg-[#FFF9ED] border border-[#392A27]/30 flex flex-col gap-1">
+<span class="font-mono text-xs uppercase text-[#873F4B] font-extrabold">Ammayi's Remark:</span>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27] italic font-semibold">
+                “Puthiya session aano?” <span class="text-[#392A27]/70 not-italic font-normal">(Opening another empty session hoping I will forget the previous catastrophe?)</span>
+</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="p-5 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_3px_0px_#392A27] flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="font-mono text-xs uppercase font-bold text-[#873F4B]">Parameter 04</span>
+<h3 class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Overall Conduct</h3>
+</div>
+<div class="px-3 py-1 rounded-xl bg-[#FFE8DE] text-[#392A27] font-mono text-xs uppercase font-black border-2 border-[#392A27] -rotate-2 shadow-[0_2px_0px_#392A27]">
+                COULD BE BETTER
+              </div>
+</div>
+<div class="p-3.5 rounded-xl bg-[#FFF9ED] border border-[#392A27]/30 flex flex-col gap-1">
+<span class="font-mono text-xs uppercase text-[#873F4B] font-extrabold">Ammayi's Remark:</span>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27] italic font-semibold">
+                “Sheri.” <span class="text-[#392A27]/70 not-italic font-normal">(Fine. Whatever you think you are doing.)</span>
+</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: The Accumulated Sins Ledger & Escape Attempts -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left 8 cols: Household Ledger -->
+<div class="lg:col-span-8 clay-card rounded-3xl p-6 md:p-7 bg-[#FFF9ED] flex flex-col gap-5">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-['Bricolage_Grotesque'] text-xl md:text-2xl font-extrabold text-[#392A27] flex items-center gap-2 uppercase tracking-tight">
+<span class="material-symbols-outlined text-[#873F4B] text-2xl">receipt_long</span>
+                THE ACCUMULATED SINS (HOUSEHOLD LEDGER)
+              </h2>
+<p class="font-['Plus_Jakarta_Sans'] text-xs sm:text-sm text-[#392A27]/70 mt-0.5">
+                Browser cache clears. Ammayi’s internal memory persistence does not.
+              </p>
+</div>
+<span class="hidden sm:inline font-mono text-xs font-bold text-[#392A27]/60 bg-[#FFF1D6] px-3 py-1 rounded-xl border border-[#392A27]/30">
+              PAGES: 1/1
+            </span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Ledger Item 1 -->
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] hover:bg-[#FFE8DE] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-[#F2C35B] border-2 border-[#392A27] flex items-center justify-center font-mono font-black text-[#392A27] shrink-0 shadow-[0_2px_0px_#392A27]">
+                  06
+                </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Session 06</span>
+<span class="px-2 py-0.5 rounded-full bg-[#873F4B] text-[#FFF9ED] font-mono text-[10px] font-extrabold">ACTIVE</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-xs text-[#392A27]/80 mt-0.5">
+<span class="text-[#ba1a1a] font-bold">12 Errors</span>
+<span>•</span>
+<span class="text-[#50643d] font-bold">1 Success</span>
+<span>•</span>
+<span>0 Escapes</span>
+</div>
+</div>
+</div>
+<div class="text-left sm:text-right flex flex-col">
+<span class="font-mono text-[10px] uppercase font-bold text-[#873F4B]">OFFICIAL VERDICT</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm text-[#873F4B] font-extrabold italic">“Nalla thudakkam.” (Good start.)</span>
+</div>
+</div>
+<!-- Ledger Item 2 -->
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] hover:bg-[#FFE8DE] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-[#FFF9ED] border-2 border-[#392A27] flex items-center justify-center font-mono font-black text-[#392A27] shrink-0 shadow-[0_2px_0px_#392A27]">
+                  05
+                </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Session 05</span>
+<span class="font-mono text-[11px] text-[#392A27]/60 font-bold">14 MIN AGO</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-xs text-[#392A27]/80 mt-0.5">
+<span class="text-[#ba1a1a] font-bold">9 Errors</span>
+<span>•</span>
+<span class="text-[#50643d] font-bold">2 Successes</span>
+<span>•</span>
+<span class="text-[#795900] font-bold">1 Escape</span>
+</div>
+</div>
+</div>
+<div class="text-left sm:text-right flex flex-col">
+<span class="font-mono text-[10px] uppercase font-bold text-[#873F4B]">OFFICIAL VERDICT</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm text-[#795900] font-extrabold italic">“Veendum vannallo.” (Came back again.)</span>
+</div>
+</div>
+<!-- Ledger Item 3 -->
+<div class="p-4 rounded-2xl bg-[#FFE8DE] border-2 border-[#ba1a1a] shadow-[0_2px_0px_#392A27] hover:bg-[#ffdad6] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-[#ba1a1a] text-[#FFF9ED] border-2 border-[#392A27] flex items-center justify-center font-mono font-black shrink-0 shadow-[0_2px_0px_#392A27]">
+                  04
+                </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Session 04</span>
+<span class="px-2 py-0.5 rounded-full bg-[#ba1a1a] text-[#FFF9ED] font-mono text-[10px] font-extrabold">CATASTROPHIC</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-xs text-[#392A27]/80 mt-0.5">
+<span class="text-[#ba1a1a] font-black">17 Errors</span>
+<span>•</span>
+<span>0 Successes</span>
+<span>•</span>
+<span class="text-[#ba1a1a] font-black">2 Escapes</span>
+</div>
+</div>
+</div>
+<div class="text-left sm:text-right flex flex-col">
+<span class="font-mono text-[10px] uppercase font-bold text-[#ba1a1a]">OFFICIAL VERDICT</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm text-[#ba1a1a] font-extrabold italic">“Ithu enthina ingane?” (Why on earth like this?)</span>
+</div>
+</div>
+<!-- Ledger Item 4 -->
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] hover:bg-[#FFE8DE] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-[#FFF9ED] border-2 border-[#392A27] flex items-center justify-center font-mono font-black text-[#392A27] shrink-0 shadow-[0_2px_0px_#392A27]">
+                  03
+                </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27]">Session 03</span>
+<span class="font-mono text-[11px] text-[#392A27]/60 font-bold">YESTERDAY</span>
+</div>
+<div class="flex items-center gap-2 font-mono text-xs text-[#392A27]/80 mt-0.5">
+<span class="text-[#ba1a1a] font-bold">5 Errors</span>
+<span>•</span>
+<span class="text-[#50643d] font-bold">1 Success</span>
+<span>•</span>
+<span>0 Escapes</span>
+</div>
+</div>
+</div>
+<div class="text-left sm:text-right flex flex-col">
+<span class="font-mono text-[10px] uppercase font-bold text-[#873F4B]">OFFICIAL VERDICT</span>
+<span class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27]/80 font-extrabold italic">“Sheri.” (Fine. Adequate.)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right 4 cols: Escape Attempts Section -->
+<div class="lg:col-span-4 clay-card rounded-3xl p-6 bg-[#FFF9ED] flex flex-col justify-between gap-4">
+<div class="flex flex-col gap-3.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-[#873F4B]">
+<span class="material-symbols-outlined text-2xl">door_open</span>
+<h3 class="font-['Bricolage_Grotesque'] text-lg font-extrabold text-[#392A27] uppercase">ESCAPE ATTEMPTS</h3>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#ba1a1a] text-[#FFF9ED] font-mono text-[11px] font-extrabold border border-[#392A27]">
+                0 SUCCESS
+              </span>
+</div>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-[#392A27]/80 leading-relaxed">
+              Documented instances of reloading, opening clean tabs, or closing windows to avoid facing consequences.
+            </p>
+<div class="p-4 rounded-2xl bg-[#FFF1D6] border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] flex flex-col gap-2">
+<div class="flex items-center justify-between font-mono text-xs">
+<span class="font-extrabold uppercase text-[#873F4B]">Attempt Tracker</span>
+<span class="font-bold text-[#392A27]">5 / 5 Intercepted</span>
+</div>
+<div class="w-full h-3 rounded-full bg-[#FFE8DE] border border-[#392A27] overflow-hidden p-0.5">
+<div class="w-full h-full bg-[#873F4B] rounded-full"></div>
+</div>
+</div>
+<!-- Ammayi Warning Card -->
+<div class="p-4 rounded-2xl bg-[#FFE8DE] border-2 border-[#873F4B] shadow-[0_2px_0px_#392A27] flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5 text-[#ba1a1a] font-mono text-xs font-black">
+<span class="material-symbols-outlined text-base">visibility</span>
+                DIRECT WARNING
+              </div>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-[#392A27] font-extrabold italic">
+                “Session maattiyal njan maari pokumennu vicharicho?”
+              </p>
+<p class="font-['Plus_Jakarta_Sans'] text-xs text-[#873F4B] font-semibold">
+                “Did you honestly believe switching sessions would make me vanish?”
+              </p>
+</div>
+</div>
+<div class="pt-3 border-t-2 border-[#392A27]/20 flex items-center justify-between font-mono text-xs text-[#392A27]/70">
+<span>EXIT LOG: RECORDED</span>
+<span class="text-[#873F4B] font-black">ZERO CLEMENCY</span>
+</div>
+</div>
+</div>
+<!-- Section 7: Final History Verdict & Tactile Clay CTAs -->
+<section class="clay-card rounded-3xl p-6 md:p-10 bg-gradient-to-br from-[#FFF9ED] via-[#FFF1D6] to-[#FFE8DE] flex flex-col items-center text-center gap-6 relative overflow-hidden">
+<div class="flex flex-col items-center gap-2 max-w-2xl">
+<span class="px-4 py-1 rounded-full bg-[#F2C35B] text-[#392A27] font-mono text-xs font-extrabold border-2 border-[#392A27] shadow-[0_2px_0px_#392A27] uppercase tracking-wider">
+            FINAL SUMMATION // CASE #KL-4091
+          </span>
+<h2 class="font-['Bricolage_Grotesque'] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#392A27] tracking-tight uppercase leading-tight mt-1">
+            YOUR CODE MAY IMPROVE.<br/>
+<span class="text-[#873F4B]">AMMAYI’S OPINION WILL NOT.</span>
+</h2>
+<p class="font-['Bricolage_Grotesque'] text-lg sm:text-xl italic text-[#873F4B] font-bold mt-1">
+            “Njan ellam kandittundu.” <span class="not-italic text-[#392A27] font-semibold">(I have seen everything.)</span>
+</p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center justify-center gap-4 w-full max-w-lg">
+<a class="clay-btn flex-1 min-w-[210px] px-6 py-3.5 rounded-2xl bg-[#873F4B] text-[#FFF9ED] font-['Bricolage_Grotesque'] font-extrabold text-base tracking-wide flex items-center justify-center gap-2 border-t-2 border-white/40 cursor-pointer" href="#">
+<span class="material-symbols-outlined text-xl">terminal</span>
+<span>RETURN TO COMPILER</span>
+</a>
+<button class="clay-btn flex-1 min-w-[210px] px-6 py-3.5 rounded-2xl bg-[#F2C35B] text-[#392A27] font-['Bricolage_Grotesque'] font-extrabold text-base tracking-wide flex items-center justify-center gap-2 border-t-2 border-white/80 cursor-pointer" onclick="alert('Ammayi: Puthiya session aano? Oodaan nokkanda! (Trying to flee into a new session? Sit back down.)')" type="button">
+<span class="material-symbols-outlined text-xl">refresh</span>
+<span>START NEW SESSION</span>
+</button>
+</div>
+<div class="flex items-center gap-2 text-[#392A27]/80 font-mono text-xs font-bold pt-1">
+<span class="material-symbols-outlined text-[#ba1a1a] text-base">notifications_active</span>
+<span>Ammayi has been informed of your inspection. Do not close tab without permission.</span>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Footer matching Landing Page Screen 7 -->
+<footer class="bg-[#FFF9ED] border-t-[3px] border-[#392A27] py-2.5 px-4 md:px-6">
+<div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between font-mono text-xs text-[#392A27]/80 gap-2">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-[#8EA477] border border-[#392A27]"></span>
+<span class="text-[#392A27] font-bold">Python 3.12 Kernel [Active]</span>
+</div>
+<span class="text-[#392A27]/40">•</span>
+<span>Memory: 47 Sins Logged</span>
+<span class="text-[#392A27]/40">•</span>
+<span>Latency: 14ms</span>
+</div>
+<div class="flex items-center gap-1 text-[#873F4B] font-bold">
+<span>⚖️</span>
+<span class="italic">Your code has errors. Your Ammayi has opinions.</span>
+</div>
+</div>
+</footer>
+</body></html>

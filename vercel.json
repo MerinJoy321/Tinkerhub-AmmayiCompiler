@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "",
-  "outputDirectory": ".",
-  "installCommand": "",
-  "framework": null,
   "rewrites": [
     { "source": "/compiler", "destination": "/compiler.html" },
     { "source": "/history",  "destination": "/history.html"  },

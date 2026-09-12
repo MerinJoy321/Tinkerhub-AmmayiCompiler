@@ -157,6 +157,7 @@
                 <span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-4">Annoyed</span>
                 <span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-5">Angry</span>
                 <span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-6">Furious</span>
+                <span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-7">Enraged</span>
                 <span class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-[#FFF9ED] text-[#392A27]/70 border border-[#392A27]/30" id="tier-tag-8">Incensed</span>
               </div>
             </div>
@@ -178,13 +179,13 @@
         <span>TEST AMMAYI ERROR TRIGGERS:</span>
       </div>
       <div class="flex flex-wrap items-center gap-2.5">
-        <button onclick="loadSnippet('NameError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">NameError</button>
-        <button onclick="loadSnippet('TypeError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">TypeError</button>
-        <button onclick="loadSnippet('IndentationError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">IndentationError</button>
-        <button onclick="loadSnippet('IndexError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">IndexError</button>
-        <button onclick="loadSnippet('ZeroDivisionError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">ZeroDivisionError</button>
-        <button onclick="loadSnippet('SyntaxError')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">SyntaxError</button>
-        <button onclick="loadSnippet('Success')" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#8EA477] hover:text-white transition-all">Success (?)</button>
+        <button onclick="loadSnippet('NameError', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">NameError</button>
+        <button onclick="loadSnippet('TypeError', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">TypeError</button>
+        <button onclick="loadSnippet('IndentationError', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">IndentationError</button>
+        <button onclick="loadSnippet('IndexError', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">IndexError</button>
+        <button onclick="loadSnippet('ZeroDivisionError', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">ZeroDivisionError</button>
+        <button onclick="loadSnippet('SyntaxError', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#F2C35B] transition-all">SyntaxError</button>
+        <button onclick="loadSnippet('Success', this)" type="button" class="comedy-tab px-3 py-1.5 rounded-xl font-mono text-xs font-extrabold border border-[#392A27]/40 bg-[#FFF9ED] text-[#392A27] hover:bg-[#8EA477] hover:text-white transition-all">Success (?)</button>
       </div>
     </div>
 
@@ -394,51 +395,65 @@ print(calculate_family_reputation(7.2, 8.5, False))`;
     lineNumDiv.innerHTML = nums;
   }
 
-  function loadSnippet(key) {
+  function loadSnippet(key, btnEl) {
     const editor = document.getElementById('code-editor');
     if (editor && SNIPPETS[key]) {
       editor.value = SNIPPETS[key];
       updateLineNumbers();
     }
+    // Update active tab styling
+    document.querySelectorAll('.comedy-tab').forEach(b => {
+      b.classList.remove('bg-[#F2C35B]', 'shadow-[0_2px_0px_#392A27]', 'border-2');
+      b.classList.add('bg-[#FFF9ED]', 'border-[#392A27]/40');
+    });
+    if (btnEl) {
+      btnEl.classList.add('bg-[#F2C35B]', 'shadow-[0_2px_0px_#392A27]', 'border-2');
+      btnEl.classList.remove('bg-[#FFF9ED]', 'border-[#392A27]/40');
+    }
   }
+
+  let sessionInitPromise = null;
 
   // 1. On Compiler page load: POST /api/session/start
   async function initSession() {
     const storedSessionId = getSessionId();
-    try {
-      const resp = await fetch(`${API_BASE}/api/session/start`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ existing_session_id: storedSessionId })
-      });
+    sessionInitPromise = (async () => {
+      try {
+        const resp = await fetch(`${API_BASE}/api/session/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ existing_session_id: storedSessionId })
+        });
 
-      if (!resp.ok) {
-        console.warn('Session start returned status:', resp.status);
-        return;
-      }
+        if (!resp.ok) {
+          console.warn('Session start returned status:', resp.status);
+          return;
+        }
 
-      const data = await resp.json();
-      if (data.session_id) {
-        setSessionId(data.session_id);
+        const data = await resp.json();
+        if (data.session_id) {
+          setSessionId(data.session_id);
+        }
+        if (data.state) {
+          setCachedState(data.state);
+          updateUIFromState(data.state);
+        }
+        if (data.ammayi_response) {
+          updateAmmayiQuote(data.ammayi_response);
+        }
+        if (data.is_escape_attempt) {
+          const banner = document.getElementById('verdict-banner-tag');
+          if (banner) banner.textContent = 'ESCAPE INTERCEPTED';
+          shakeTerminal();
+        }
+      } catch (e) {
+        console.warn('Could not connect to backend session endpoint:', e.message);
+        // Fallback: render cached state if any
+        const cached = getCachedState();
+        if (cached) updateUIFromState(cached);
       }
-      if (data.state) {
-        setCachedState(data.state);
-        updateUIFromState(data.state);
-      }
-      if (data.ammayi_response) {
-        updateAmmayiQuote(data.ammayi_response);
-      }
-      if (data.is_escape_attempt) {
-        const banner = document.getElementById('verdict-banner-tag');
-        if (banner) banner.textContent = 'ESCAPE INTERCEPTED';
-        shakeTerminal();
-      }
-    } catch (e) {
-      console.warn('Could not connect to backend session endpoint:', e.message);
-      // Fallback: render cached state if any
-      const cached = getCachedState();
-      if (cached) updateUIFromState(cached);
-    }
+    })();
+    return sessionInitPromise;
   }
 
   // Update UI from backend state
@@ -486,11 +501,19 @@ print(calculate_family_reputation(7.2, 8.5, False))`;
   }
 
   function updateAmmayiQuote(resp) {
-    if (!resp || !resp.text_ml) return;
-    const qEl = document.getElementById('ammayi-quote-text');
-    if (qEl) qEl.textContent = resp.text_ml;
-    const tq = document.getElementById('terminal-ammayi-quote');
-    if (tq) tq.textContent = resp.text_ml;
+    if (!resp) return;
+    const textMl = resp.text_ml || (typeof resp === 'string' ? resp : null);
+    if (textMl) {
+      const qEl = document.getElementById('ammayi-quote-text');
+      if (qEl) qEl.textContent = `“${textMl.replace(/^“|”$/g, '')}”`;
+      const tq = document.getElementById('terminal-ammayi-quote');
+      if (tq) tq.textContent = `“${textMl.replace(/^“|”$/g, '')}”`;
+    }
+
+    if (resp.text_en) {
+      const transEl = document.getElementById('trans-content');
+      if (transEl) transEl.textContent = `“${resp.text_en.replace(/^“|”$/g, '')}”`;
+    }
 
     if (resp.audio) {
       lastAudioPath = resp.audio;
@@ -522,6 +545,10 @@ print(calculate_family_reputation(7.2, 8.5, False))`;
     const btn = document.getElementById('run-btn');
     const btnText = document.getElementById('run-btn-text');
     if (btnText) btnText.textContent = 'EXECUTING...';
+
+    if (!getSessionId() && sessionInitPromise) {
+      await sessionInitPromise;
+    }
 
     const sessionId = getSessionId() || 'temp-session';
 

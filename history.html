@@ -522,6 +522,10 @@
       const resp = await fetch(`${API_BASE}/api/history?limit=20`);
       if (resp.ok) {
         const data = await resp.json();
+        if (data.state) {
+          setCachedState(data.state);
+          renderState(data.state);
+        }
         renderLedgerEvents(data.events || []);
       }
     } catch (e) {
@@ -576,6 +580,8 @@
     if (escTracker) escTracker.textContent = `${escapes} Intercepted`;
     const escBar = document.getElementById('escape-progress-bar');
     if (escBar) escBar.style.width = `${Math.min(100, escapes * 20)}%`;
+    const escBadge = document.getElementById('escape-attempts-badge');
+    if (escBadge) escBadge.textContent = `${escapes} (0 SUCCESS)`;
   }
 
   function renderLedgerEvents(events) {
@@ -591,8 +597,31 @@
       return;
     }
 
+    // Ensure newest events appear first:
+    const sorted = [...events].sort((a, b) => {
+      if (a.id && b.id) return b.id - a.id;
+      if (a.timestamp && b.timestamp) return new Date(b.timestamp) - new Date(a.timestamp);
+      return 0;
+    });
+
+    // If state wasn't cached, populate stats from events
+    if (!getCachedState()) {
+      let errCount = 0, succCount = 0, escCount = 0;
+      events.forEach(e => {
+        if (e.event_type === 'ERROR') errCount++;
+        else if (e.event_type === 'SUCCESS') succCount++;
+        else if (e.event_type === 'ESCAPE_ATTEMPT') escCount++;
+      });
+      const eEl = document.getElementById('stat-errors');
+      if (eEl && eEl.textContent === '--') eEl.textContent = String(errCount).padStart(2, '0');
+      const sEl = document.getElementById('stat-successes');
+      if (sEl && sEl.textContent === '--') sEl.textContent = String(succCount).padStart(2, '0');
+      const escEl = document.getElementById('stat-escapes');
+      if (escEl && escEl.textContent === '--') escEl.textContent = String(escCount).padStart(2, '0');
+    }
+
     let html = '';
-    events.forEach(ev => {
+    sorted.forEach(ev => {
       const isError = ev.event_type === 'ERROR';
       const isEscape = ev.event_type === 'ESCAPE_ATTEMPT';
       const isSuccess = ev.event_type === 'SUCCESS';

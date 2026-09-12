@@ -1,0 +1,19 @@
+# Backend — not deployable on Vercel (requires subprocess + SQLite)
+backend/
+database/
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Git
+.git/
+
+# Large/unnecessary files
+expressions/
+frontendpages/
+*.pdf
+README.md
+AGENTS*.md
+AMMAYI_BACKEND_ARCHITECTURE.md

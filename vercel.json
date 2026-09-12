@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    { "source": "/compiler", "destination": "/compiler.html" },
+    { "source": "/history",  "destination": "/history.html"  },
+    { "source": "/about",    "destination": "/about.html"    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}

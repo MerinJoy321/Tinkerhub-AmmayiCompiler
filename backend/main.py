@@ -42,6 +42,12 @@ _ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 if os.path.isdir(_ASSETS_DIR):
     app.mount("/assets", StaticFiles(directory=_ASSETS_DIR), name="assets")
 
+# ── frontend static files (HTML/CSS/JS from project root) ────────────────────
+# Mounted AFTER /assets and /api routes so API takes priority.
+# Serves index.html, compiler.html, history.html, about.html, frontend/js/, etc.
+_FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..")
+_FRONTEND_DIR = os.path.normpath(_FRONTEND_DIR)
+
 
 @app.on_event("startup")
 def startup():
@@ -422,3 +428,33 @@ def dev_reset():
         """)
         conn.commit()
     return {"status": "reset", "message": "Ammayi has forgotten. For now."}
+
+
+# ── frontend HTML page routes ─────────────────────────────────────────────────
+# These must be registered BEFORE the catch-all StaticFiles mount below.
+
+from fastapi.responses import FileResponse
+
+@app.get("/")
+def serve_index():
+    return FileResponse(os.path.join(_FRONTEND_DIR, "index.html"))
+
+@app.get("/compiler")
+@app.get("/compiler.html")
+def serve_compiler():
+    return FileResponse(os.path.join(_FRONTEND_DIR, "compiler.html"))
+
+@app.get("/history")
+@app.get("/history.html")
+def serve_history():
+    return FileResponse(os.path.join(_FRONTEND_DIR, "history.html"))
+
+@app.get("/about")
+@app.get("/about.html")
+def serve_about():
+    return FileResponse(os.path.join(_FRONTEND_DIR, "about.html"))
+
+
+# ── static file catch-all (JS, images, fonts, etc.) ──────────────────────────
+# Must be the LAST mount so it doesn't shadow /api/* routes.
+app.mount("/", StaticFiles(directory=_FRONTEND_DIR, html=False), name="frontend")

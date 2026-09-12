@@ -607,9 +607,12 @@ print(calculate_family_reputation(7.2, 8.5, False))`;
         }
         if (exitCodeBadge) exitCodeBadge.textContent = 'EXIT: 1';
         if (consoleOut) {
+          const errLabel = data.timed_out
+            ? '[EXECUTION TIMEOUT]'
+            : `[RUNTIME ERROR DETECTED: ${escapeHtml(data.error_type || 'Error')}]`;
           consoleOut.innerHTML = `
-            <div class="text-[#ba1a1a] font-bold">[RUNTIME EXCEPTION: ${escapeHtml(data.error_type || 'Error')}]</div>
-            <pre class="text-[#FFDAD6] font-mono text-xs whitespace-pre-wrap">${escapeHtml(data.stderr || data.stdout || 'Execution failed.')}</pre>
+            <div class="text-[#ba1a1a] font-bold">${errLabel}</div>
+            <div class="text-[#FFDAD6] font-mono text-xs mt-1">Code execution failed. Ammayi has been notified.</div>
           `;
         }
       }

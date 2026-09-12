@@ -17,3 +17,6 @@ frontendpages/
 README.md
 AGENTS*.md
 AMMAYI_BACKEND_ARCHITECTURE.md
+
+public/
+build.js

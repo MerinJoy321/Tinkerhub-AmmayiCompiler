@@ -1,17 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "index.html",    "use": "@vercel/static" },
-    { "src": "compiler.html", "use": "@vercel/static" },
-    { "src": "history.html",  "use": "@vercel/static" },
-    { "src": "about.html",    "use": "@vercel/static" },
-    { "src": "frontend/**",   "use": "@vercel/static" },
-    { "src": "assets/**",     "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/compiler", "dest": "/compiler.html" },
-    { "src": "/history",  "dest": "/history.html"  },
-    { "src": "/about",    "dest": "/about.html"    },
-    { "src": "/(.*)",     "dest": "/$1"            }
+  "buildCommand": "node build.js",
+  "outputDirectory": "public",
+  "framework": null,
+  "rewrites": [
+    { "source": "/compiler", "destination": "/compiler.html" },
+    { "source": "/history",  "destination": "/history.html"  },
+    { "source": "/about",    "destination": "/about.html"    }
   ]
 }

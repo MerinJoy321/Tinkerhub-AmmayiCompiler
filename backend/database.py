@@ -60,6 +60,7 @@ def init_db():
                 error_type   TEXT,
                 anger_before INTEGER NOT NULL DEFAULT 0,
                 anger_after  INTEGER NOT NULL DEFAULT 0,
+                response_id  TEXT,
                 metadata     TEXT
             );
 
@@ -75,4 +76,12 @@ def init_db():
         conn.execute(
             "INSERT OR IGNORE INTO ammayi_state (id) VALUES (1)"
         )
+
+        # Migration: add response_id to events if it doesn't exist yet
+        # (safe to run on existing DBs — ALTER TABLE ADD COLUMN is idempotent via try/except)
+        try:
+            conn.execute("ALTER TABLE events ADD COLUMN response_id TEXT")
+        except Exception:
+            pass  # column already exists
+
         conn.commit()

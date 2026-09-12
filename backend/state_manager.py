@@ -131,15 +131,16 @@ def record_event(
     anger_before: int,
     anger_after: int,
     error_type: Optional[str] = None,
+    response_id: Optional[str] = None,
     metadata: Optional[str] = None,
 ):
     with get_conn() as conn:
         conn.execute(
             """
             INSERT INTO events
-                (session_id, timestamp, event_type, error_type, anger_before, anger_after, metadata)
+                (session_id, timestamp, event_type, error_type, anger_before, anger_after, response_id, metadata)
             VALUES
-                (:session_id, :ts, :event_type, :error_type, :anger_before, :anger_after, :metadata)
+                (:session_id, :ts, :event_type, :error_type, :anger_before, :anger_after, :response_id, :metadata)
             """,
             {
                 "session_id": session_id,
@@ -148,6 +149,7 @@ def record_event(
                 "error_type": error_type,
                 "anger_before": anger_before,
                 "anger_after": anger_after,
+                "response_id": response_id,
                 "metadata": metadata,
             },
         )
@@ -179,3 +181,22 @@ def get_last_used_session_for_response(response_id: str) -> Optional[str]:
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+# ── history query ─────────────────────────────────────────────────────────────
+
+def get_recent_events(limit: int = 20) -> list[dict]:
+    """Return the most recent events, newest first, as a list of dicts."""
+    limit = max(1, min(limit, 100))  # clamp 1–100
+    with get_conn() as conn:
+        rows = conn.execute(
+            """
+            SELECT id, timestamp, session_id, event_type, error_type,
+                   anger_before, anger_after, response_id
+            FROM events
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+        return [dict(r) for r in rows]
